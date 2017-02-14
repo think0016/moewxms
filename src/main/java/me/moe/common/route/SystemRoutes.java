@@ -19,6 +19,7 @@ public class SystemRoutes extends Routes {
 		add("/department", DepartmentController.class, "/department");
 		add("/role", RoleController.class, "/role");
 		add("/menu", MenuController.class, "/menu");
+		
 	}
 
 }

@@ -22,12 +22,12 @@ public class Init {
 		System.out.println(PathKit.getWebRootPath());
 		
 		// base model 所使用的包名
-		String baseModelPackageName = "me.moe.model.base";
+		String baseModelPackageName = "me.moe.model.base.weixin";
 		// base model 文件保存路径
-		String baseModelOutputDir = PathKit.getWebRootPath() + "/src/main/java/me/moe/model/base";
+		String baseModelOutputDir = PathKit.getWebRootPath() + "/src/main/java/me/moe/model/base/weixin";
 		
 		// model 所使用的包名 (MappingKit 默认使用的包名)
-		String modelPackageName = "me.moe.model";
+		String modelPackageName = "me.moe.model.weixin";
 		// model 文件保存路径 (MappingKit 与 DataDictionary 文件默认保存路径)
 		String modelOutputDir = baseModelOutputDir + "/..";
 		
@@ -36,13 +36,13 @@ public class Init {
 		// 设置数据库方言
 		gernerator.setDialect(new MysqlDialect());
 		// 添加不需要生成的表名
-		//gernerator.addExcludedTable("qx_department");
+		gernerator.addExcludedTable("qx_department","qx_department","qx_department","qx_department","qx_department");
 		// 设置是否在 Model 中生成 dao 对象
 		gernerator.setGenerateDaoInModel(true);
 		// 设置是否生成字典文件
 		gernerator.setGenerateDataDictionary(false);
 		// 设置需要被移除的表名前缀用于生成modelName。例如表名 "osc_user"，移除前缀 "osc_"后生成的model名为 "User"而非 OscUser
-		gernerator.setRemovedTableNamePrefixes("qx_");
+		gernerator.setRemovedTableNamePrefixes("wx_");
 		// 生成
 		gernerator.generate();
 	}

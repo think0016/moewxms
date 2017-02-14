@@ -76,6 +76,7 @@ public class MoeConfig extends JFinalConfig {
 		me.add(new SystemRoutes());
 //		me.setBaseViewPath("/temp");
 //		me.add("/test", TestController.class);
+		
 	}
 
 	public static C3p0Plugin createC3p0Plugin() {
