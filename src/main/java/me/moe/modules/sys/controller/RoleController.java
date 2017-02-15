@@ -24,7 +24,7 @@ public class RoleController extends Controller {
 	public static final MenuService menuService = new MenuService();
 
 	public void index() {
-		redirect("/role/list");
+		redirect("/sys/role/list");
 	}
 
 	@Before({ AuthenticationValidator.class })
@@ -87,8 +87,8 @@ public class RoleController extends Controller {
 		CacheKit.removeAll("menulist");
 		if (flag) {
 //			setAttr("infomsg", "添加成功");
-//			forwardAction("/role/list");
-			String url = "/role/list/1-";
+//			forwardAction("/sys/role/list");
+			String url = "/sys/role/list/1-";
 			if(update){
 				url = url + UrlEncoderUtils.encode("修改成功", "utf-8");
 			}else{
@@ -103,7 +103,7 @@ public class RoleController extends Controller {
 				setAttr("errormsg", "添加角色失败");
 			}	
 			
-			forwardAction("/role/form");
+			forwardAction("/sys/role/form");
 		}
 	}
 
@@ -128,16 +128,16 @@ public class RoleController extends Controller {
 
 		if (StringUtils.isEmpty(roleid)) {
 			setAttr("errormsg", "错误请求");
-			forwardAction("/role/list");
+			forwardAction("/sys/role/list");
 		} else {
 			Role role = roleService.findRoleById(roleid);
 
 			if (role == null) {
 				setAttr("errormsg", "错误请求");
-				forwardAction("/role/list");
+				forwardAction("/sys/role/list");
 			} else if ("global".equals(role.getRoleType())) {
 				setAttr("errormsg", "超级管理员角色不能执行此项操作");
-				forwardAction("/role/list");
+				forwardAction("/sys/role/list");
 			} else {
 				// 菜单树信息
 				List<TreeNode> nodes = roleService.getAuthorizationTreedata(menuService.findAllMenu(), role.getMenu());

@@ -33,7 +33,10 @@
   <style type="text/css">
     ul.ztree {margin-top: 10px;border: 1px solid #617775;background: #f0f6e4;width:220px;height:360px;overflow-y:scroll;overflow-x:auto;}
   </style>
-  <script type="text/javascript">var rooturl = '${ctxroot}'; </script>
+  <script type="text/javascript">
+  var rooturl = '${ctxroot}'; 
+  var actionurl = rooturl +"/sys"; 
+  </script>
 </head>
 <body class="hold-transition skin-green-light sidebar-mini">
   <!-- Site wrapper -->
@@ -153,7 +156,7 @@
                 </div>
                 <div class="box-footer">
                   <div class="col-sm-9">
-                    <a href="${ctxroot}/user" class="btn btn-default pull-right">返回</a>
+                    <a href="${ctxroot}/sys/user" class="btn btn-default pull-right">返回</a>
                     <!-- <button type="submit" class="btn btn-info pull-right" onclick="">保存</button>
                   -->
                 </div>
@@ -223,11 +226,11 @@
         Alert("两次密码输入不相同");
       }else{
         //$('#form1')[0].submit();
-        var url = rooturl + '/user/resetpassword';
+        var url = actionurl + '/user/resetpassword';
         $.post(url, {"opassword":opassword,"npassword":npassword}, function(data){
         	if(data == "1"){
         		Alert("修改成功！",function(){
-        			window.location.href = rooturl + "";
+        			window.location.href = actionurl + "";
         		});
         	}else if(data == "0"){
         		Alert("密码输入错误");
@@ -241,7 +244,7 @@
     };
 
   // var refresh = function() {
-  //   window.location.href = rooturl + "/user";
+  //   window.location.href = actionurl + "/user";
   // }
   </script>
 </body>

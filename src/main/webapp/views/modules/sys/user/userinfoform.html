@@ -35,7 +35,10 @@
   <style type="text/css">
     ul.ztree {margin-top: 10px;border: 1px solid #617775;background: #f0f6e4;width:220px;height:360px;overflow-y:scroll;overflow-x:auto;}
   </style>
-  <script type="text/javascript">var rooturl = '${ctxroot}'; </script>
+  <script type="text/javascript">
+  var rooturl = '${ctxroot}'; 
+  var actionurl = rooturl + "/sys"; 
+  </script>
 </head>
 <body class="hold-transition skin-green-light sidebar-mini">
   <!-- Site wrapper -->
@@ -116,7 +119,7 @@
               </div>
             </#if>
             <!-- 提示框 END -->
-            <form action="${ctxroot}/user" class="form-horizontal"  method="post" id="form1">
+            <form action="${ctxroot}/sys/user" class="form-horizontal"  method="post" id="form1">
             <div class="box">
               <div class="box-header with-border">
                 <h3 class="box-title">个人资料</h3>
@@ -317,7 +320,7 @@
                 // });
                 var rs = $.parseJSON(data.result);
                 if(rs.status=="1"){
-                  var imgurl = rooturl + "/upload/headphoto/"+rs.msg;
+                  var imgurl = actionurl + "/upload/headphoto/"+rs.msg;
                   $("#headphotoimg").attr("src",imgurl);
                   $("input[name='headphotourl']").val("/upload/headphoto/"+rs.msg);
                 }else{
@@ -334,7 +337,7 @@
       var email = $("input[name='email']").val();
       var headphotourl = $("input[name='headphotourl']").val();
       //$('#form1')[0].submit();
-      var url = rooturl + "/user/saveuserinfo"
+      var url = actionurl + "/user/saveuserinfo"
       $.post(url, {
         'nickname':nickname,
         'remarks':remarks,

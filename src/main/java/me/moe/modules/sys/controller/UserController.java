@@ -37,7 +37,7 @@ public class UserController extends Controller {
 	// public static final SystemService systemService = new SystemService();
 
 	public void index() {
-		redirect("/user/list");
+		redirect("/sys/user/list");
 	}
 
 	@Before({ AuthenticationValidator.class })
@@ -218,8 +218,8 @@ public class UserController extends Controller {
 
 			if (flag == 1) {
 				// setAttr("infomsg", "添加成功");
-				// forwardAction("/user/list");
-				String url = "/user/list/0-1-";
+				// forwardAction("/sys/user/list");
+				String url = "/sys/user/list/0-1-";
 				if (update) {
 					url = url + UrlEncoderUtils.encode("修改成功", "utf-8");
 				} else {
@@ -234,12 +234,12 @@ public class UserController extends Controller {
 				}
 
 				keepPara();
-				forwardAction("/user/form");
+				forwardAction("/sys/user/form");
 			}
 		} else {
 			setAttr("errormsg", "登录名已经存在");
 			keepPara();
-			forwardAction("/user/form");
+			forwardAction("/sys/user/form");
 		}
 
 		if (update) {
@@ -249,7 +249,7 @@ public class UserController extends Controller {
 		}
 		// boolean flag = user.save();
 
-		// redirect("/user/list");
+		// redirect("/sys/user/list");
 	}
 
 	public void resetpassword() {
@@ -266,13 +266,13 @@ public class UserController extends Controller {
 		if (user == null || !SystemService.validatePassword(opassword, user.getPassword())) {
 			// setAttr("errormsg", "密码不正确");
 			// keepPara();
-			// forwardAction("/user/pwform");
+			// forwardAction("/sys/user/pwform");
 			result = "0";//
 		} else {
 			user.setPassword(SystemService.entryptPassword(npassword));
 			if (user.update()) {
 				// setAttr("infomsg", "修改密码成功");
-				// forwardAction("/index");
+				// forwardAction("/sys/index");
 				// String url = "/index/1-";
 				// url = url + UrlEncoderUtils.encode("修改密码成功", "utf-8");
 				// redirect(url);
@@ -280,7 +280,7 @@ public class UserController extends Controller {
 			} else {
 				// setAttr("errormsg", "密码不正确");
 				// keepPara();
-				// forwardAction("/user/pwform");
+				// forwardAction("/sys/user/pwform");
 				result = "10";
 			}
 		}

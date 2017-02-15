@@ -33,7 +33,10 @@
   <style type="text/css">
     /*ul.ztree {margin-top: 10px;border: 1px solid #617775;background: #f0f6e4;width:600px;height:360px;overflow-y:scroll;overflow-x:auto;}*/
   </style>
-  <script type="text/javascript">var rooturl = '${ctxroot}'; </script>
+  <script type="text/javascript">
+  var rooturl = '${ctxroot}'; 
+  var actionurl = rooturl + "/sys";
+  </script>
 </head>
 <body class="hold-transition skin-green-light sidebar-mini">
   <!-- Site wrapper -->
@@ -117,7 +120,7 @@
               <div class="box-header with-border">
                 <h3 class="box-title">菜单列表</h3>
                 <div class="box-tools pull-right">
-                  <!-- <a href="${ctxroot}/menu/form" class="btn btn-default btn-sm">添加菜单</a> -->
+                  <!-- <a href="${ctxroot}/sys/menu/form" class="btn btn-default btn-sm">添加菜单</a> -->
                 </div>
               </div>
               <!-- /.box-header -->
@@ -154,10 +157,10 @@
                       <td>
                         <div class="btn-group">
                           <#if menu.parentId != 0>
-                            <a href="${ctxroot}/menu/form/${menu.menuid}-0" class="btn btn-default btn-xs">修改</a>
+                            <a href="${ctxroot}/sys/menu/form/${menu.menuid}-0" class="btn btn-default btn-xs">修改</a>
                             <button type="button" class="btn btn-default btn-xs" onclick="delfm(${menu.menuid});">删除</button>
                           </#if>
-                            <a href="${ctxroot}/menu/form/${menu.menuid}-1" class="btn btn-default btn-xs">添加下级功能</a>
+                            <a href="${ctxroot}/sys/menu/form/${menu.menuid}-1" class="btn btn-default btn-xs">添加下级功能</a>
                         </div>
                       </td>
                     </tr>
@@ -262,7 +265,7 @@
       if(menuid == ''){
         Alert("删除失败");
       }else{
-        var purl = rooturl + "/menu/delete";
+        var purl = actionurl + "/menu/delete";
         $.post(purl, {"menuid":menuid}, function(data){
               if(data == '1'){
                 Alert("删除成功",refresh);
@@ -279,7 +282,7 @@
       $('#delcfmModel').modal('show');
     }
 var refresh = function(){
-  window.location.href = rooturl + "/menu";
+  window.location.href = actionurl + "/menu";
 };
   </script>
 </body>

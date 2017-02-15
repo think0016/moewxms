@@ -6,6 +6,7 @@ import com.google.gson.Gson;
 import com.jfinal.aop.Clear;
 import com.jfinal.core.Controller;
 
+import me.moe.modules.weixin.model.PublicFollow;
 import me.moe.modules.weixin.model.bean.Welcome;
 
 @Clear
@@ -13,7 +14,7 @@ public class TestController extends Controller {
 	
 	public void index(){
 //		renderText("TESTINDEX");
-		render("index.html");
+		renderText("index.html");
 	}
 	
 	public void test(){

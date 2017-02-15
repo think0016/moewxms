@@ -113,7 +113,7 @@
               </div>
             </#if>
             <!-- 提示框 END -->
-            <form action="${ctxroot}/menu/savemenu" class="form-horizontal"  method="post" id="form1">
+            <form action="${ctxroot}/sys/menu/savemenu" class="form-horizontal"  method="post" id="form1">
               <input type="hidden" name="pmenuid" value="${pmenuid!}">
               <input type="hidden" name="menuid" value="${menu.menuid!}">
               <div class="box">
@@ -172,7 +172,7 @@
                 </div>
               <div class="box-footer">
                 <div class="col-sm-9">                  
-                  <a href="${ctxroot}/menu" class="btn btn-default pull-right">返回</a>
+                  <a href="${ctxroot}/sys/menu" class="btn btn-default pull-right">返回</a>
                   <!-- <button type="submit" class="btn btn-info pull-right" onclick="">保存</button> -->
                 </div>
                 <div class="col-sm-1"><button type="button" class="btn btn-info pull-right" onclick="saveform();">保存</button></div>

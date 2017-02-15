@@ -24,7 +24,7 @@ public class DepartmentController extends Controller {
 	public static final UserService userService = new UserService();
 
 	public void index() {
-		redirect("/department/list");
+		redirect("/sys/department/list");
 	}
 
 	@Before({ AuthenticationValidator.class })
@@ -123,8 +123,8 @@ public class DepartmentController extends Controller {
 
 		if (flag) {
 			// setAttr("infomsg", "添加成功");
-			// forwardAction("/department/list");
-			String url = "/department/list/1-";
+			// forwardAction("/sys/department/list");
+			String url = "/sys/department/list/1-";
 			if (update) {
 				url = url + UrlEncoderUtils.encode("修改成功", "utf-8");
 			} else {
@@ -140,7 +140,7 @@ public class DepartmentController extends Controller {
 				setAttr("errormsg", "添加部门失败");
 			}
 
-			forwardAction("/department/form");
+			forwardAction("/sys/department/form");
 		}
 	}
 

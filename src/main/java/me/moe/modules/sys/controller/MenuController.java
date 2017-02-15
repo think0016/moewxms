@@ -23,7 +23,7 @@ public class MenuController extends Controller {
 	public static final MenuService menuService = new MenuService();
 
 	public void index() {
-		redirect("/menu/list");
+		redirect("/sys/menu/list");
 	}
 
 	@Before({ AuthenticationValidator.class })
@@ -129,8 +129,8 @@ public class MenuController extends Controller {
 
 		if (flag) {
 			// setAttr("infomsg", "添加成功");
-			// forwardAction("/menu/list");
-			String url = "/menu/list/1-";
+			// forwardAction("/sys/menu/list");
+			String url = "/sys/menu/list/1-";
 			if (update) {
 				url = url + UrlEncoderUtils.encode("修改成功", "utf-8");
 			} else {
@@ -144,8 +144,8 @@ public class MenuController extends Controller {
 			} else {
 				setAttr("errormsg", "添加失败");
 			}
-
-			forwardAction("/menu/form");
+			
+			forwardAction("/sys/menu/form");
 		}
 	}
 

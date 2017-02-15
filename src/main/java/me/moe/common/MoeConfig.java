@@ -18,6 +18,7 @@ import me.moe.common.route.SystemRoutes;
 import me.moe.model._MappingKit;
 import me.moe.modules.sys.interceptor.CommonHandler;
 import me.moe.modules.sys.interceptor.VerifyLoginInterceptor;
+import me.moe.modules.weixin.model.Wx_MappingKit;
 
 
 public class MoeConfig extends JFinalConfig {
@@ -62,6 +63,7 @@ public class MoeConfig extends JFinalConfig {
 		//arp.setShowSql(true);
 		// 所有配置在 MappingKit 中搞定
 		_MappingKit.mapping(arp);
+		Wx_MappingKit.mapping(arp);
 	}
 
 	@Override

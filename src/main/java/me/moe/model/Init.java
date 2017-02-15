@@ -22,12 +22,12 @@ public class Init {
 		System.out.println(PathKit.getWebRootPath());
 		
 		// base model 所使用的包名
-		String baseModelPackageName = "me.moe.model.base.weixin";
+		String baseModelPackageName = "me.moe.modules.weixin.model.base";
 		// base model 文件保存路径
-		String baseModelOutputDir = PathKit.getWebRootPath() + "/src/main/java/me/moe/model/base/weixin";
+		String baseModelOutputDir = PathKit.getWebRootPath() + "/src/main/java/me/moe/modules/weixin/model/base";
 		
 		// model 所使用的包名 (MappingKit 默认使用的包名)
-		String modelPackageName = "me.moe.model.weixin";
+		String modelPackageName = "me.moe.modules.weixin.model";
 		// model 文件保存路径 (MappingKit 与 DataDictionary 文件默认保存路径)
 		String modelOutputDir = baseModelOutputDir + "/..";
 		
@@ -36,7 +36,7 @@ public class Init {
 		// 设置数据库方言
 		gernerator.setDialect(new MysqlDialect());
 		// 添加不需要生成的表名
-		gernerator.addExcludedTable("qx_department","qx_department","qx_department","qx_department","qx_department");
+		gernerator.addExcludedTable("qx_department","qx_menu","qx_role","qx_role_menu","qx_user","qx_user_role");
 		// 设置是否在 Model 中生成 dao 对象
 		gernerator.setGenerateDaoInModel(true);
 		// 设置是否生成字典文件
