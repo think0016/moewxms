@@ -8,7 +8,7 @@ public class WeiXinRoutes extends Routes {
 	public void config() {
 		// TODO Auto-generated method stub
 		setBaseViewPath("/views/modules/weixin");
-//		add("/", IndexController.class, "/index");	// 第三个参数为该Controller的视图存放路径
+		//add("/msg", IndexController.class, "/msg");
 //		add("/sys/user", UserController.class, "/user");
 //		add("/sys/department", DepartmentController.class, "/department");
 //		add("/sys/role", RoleController.class, "/role");
