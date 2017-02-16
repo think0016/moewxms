@@ -1,5 +1,6 @@
 package me.moe.modules.weixin.controller;
 
+import com.jfinal.aop.Clear;
 import com.jfinal.weixin.sdk.api.ApiConfig;
 import com.jfinal.weixin.sdk.jfinal.MsgController;
 import com.jfinal.weixin.sdk.msg.in.InImageMsg;
@@ -29,19 +30,29 @@ import com.jfinal.weixin.sdk.msg.in.event.InVerifyFailEvent;
 import com.jfinal.weixin.sdk.msg.in.event.InVerifySuccessEvent;
 import com.jfinal.weixin.sdk.msg.in.event.InWifiEvent;
 import com.jfinal.weixin.sdk.msg.in.speech_recognition.InSpeechRecognitionResults;
+import com.jfinal.weixin.sdk.msg.out.OutTextMsg;
 
+import me.moe.modules.weixin.service.PublicService;
+
+@Clear
 public class WeixinMsgController extends MsgController {
 
 	@Override
 	public ApiConfig getApiConfig() {
 		// TODO Auto-generated method stub
-		return null;
+		String id = getPara(0);
+		PublicService ps = new PublicService();
+		return ps.getApiConfig(id);
 	}
 
 	@Override
 	protected void processInTextMsg(InTextMsg inTextMsg) {
 		// TODO Auto-generated method stub
-
+		String msgContent = inTextMsg.getContent().trim();		
+		OutTextMsg outMsg = new OutTextMsg(inTextMsg);
+		outMsg.setContent("\tMOE文本消息已成功接收，内容为： " + msgContent);
+		render(outMsg);
+		
 	}
 
 	@Override
@@ -53,7 +64,7 @@ public class WeixinMsgController extends MsgController {
 	@Override
 	protected void processInVoiceMsg(InVoiceMsg inVoiceMsg) {
 		// TODO Auto-generated method stub
-
+		
 	}
 
 	@Override

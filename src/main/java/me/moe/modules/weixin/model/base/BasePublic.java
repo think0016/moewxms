@@ -9,11 +9,11 @@ import com.jfinal.plugin.activerecord.IBean;
 @SuppressWarnings("serial")
 public abstract class BasePublic<M extends BasePublic<M>> extends Model<M> implements IBean {
 
-	public void setId(java.lang.Long id) {
+	public void setId(java.lang.String id) {
 		set("id", id);
 	}
 
-	public java.lang.Long getId() {
+	public java.lang.String getId() {
 		return get("id");
 	}
 
@@ -103,6 +103,14 @@ public abstract class BasePublic<M extends BasePublic<M>> extends Model<M> imple
 
 	public java.lang.String getSecret() {
 		return get("secret");
+	}
+
+	public void setIsencryptMessage(java.lang.Integer isencryptMessage) {
+		set("isencryptMessage", isencryptMessage);
+	}
+
+	public java.lang.Integer getIsencryptMessage() {
+		return get("isencryptMessage");
 	}
 
 	public void setEncodingaeskey(java.lang.String encodingaeskey) {

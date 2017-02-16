@@ -15,6 +15,7 @@ import com.jfinal.render.ViewType;
 import com.jfinal.template.Engine;
 
 import me.moe.common.route.SystemRoutes;
+import me.moe.common.route.WeiXinRoutes;
 import me.moe.model._MappingKit;
 import me.moe.modules.sys.interceptor.CommonHandler;
 import me.moe.modules.sys.interceptor.VerifyLoginInterceptor;
@@ -76,6 +77,7 @@ public class MoeConfig extends JFinalConfig {
 //		me.add("/role", RoleController.class, "/sys/role");
 //		me.add("/menu", MenuController.class, "/sys/menu");
 		me.add(new SystemRoutes());
+		me.add(new WeiXinRoutes());
 //		me.setBaseViewPath("/temp");
 //		me.add("/test", TestController.class);
 		
