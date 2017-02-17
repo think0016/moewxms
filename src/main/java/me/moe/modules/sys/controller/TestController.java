@@ -3,6 +3,8 @@ package me.moe.modules.sys.controller;
 import com.jfinal.aop.Clear;
 import com.jfinal.core.Controller;
 
+import me.moe.modules.weixin.model.Public;
+
 //import me.moe.modules.weixin.model.bean.Welcome;
 
 @Clear
@@ -14,6 +16,8 @@ public class TestController extends Controller {
 	}
 	
 	public void test(){
+		
+
 		renderText("IJIJIJIJIJI");
 	}
 	
