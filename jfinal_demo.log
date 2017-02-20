@@ -1669,3 +1669,12 @@ Pool thread stack traces:
 		com.mchange.v2.async.ThreadPoolAsynchronousRunner$PoolThread.run(ThreadPoolAsynchronousRunner.java:547)
 
 
+
+2017-02-20 10:44:18
+[WARN]-[Thread: http-bio-8080-exec-8]-[com.jfinal.core.ActionHandler.handle()]: 404 Action Not Found: /weixin/list
+
+2017-02-20 18:14:41
+[WARN]-[Thread: http-bio-8080-exec-7]-[com.jfinal.core.ActionHandler.handle()]: 404 Action Not Found: /weixin/
+
+2017-02-20 18:25:04
+[WARN]-[Thread: http-bio-8080-exec-3]-[com.jfinal.core.ActionHandler.handle()]: 404 Action Not Found: /weixin/savepiblic

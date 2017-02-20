@@ -124,7 +124,7 @@
               <h3 class="box-title">${subtitle!}</h3>
             </div>
             <div class="box-body">
-              <div id="step1" style="display: none;">
+              <div id="step1">
                 <div class="form-group">
                   <label for="input1" class="col-sm-2 control-label">公众号名称：</label>
                   <div class="col-sm-8">
@@ -145,32 +145,51 @@
                   <div class="col-sm-2"></div>
                 </div>
               </div>
-              <div id="step2" >
+              <div id="step2" style="display: none;">
                 <div class="divider15"></div>
                 <div class="col-sm-2">                  
                 </div>
                 <div class="col-sm-8">
-                <p style="font-size: 16px;">请在公众平台开发者中心里的服务器配置录入以下参数</p>
-                <p>URL(服务器地址)： http://45.32.36.14/wp/index.php?s=/home/weixin/index/id/5.html</p>
-                <p>Token(令牌)：moewxms</p>
+                <p style="font-size: 16px;font-weight:bold;">请在公众平台开发者中心里的服务器配置录入以下参数</p>
+                <p>URL(服务器地址)： <span id="msgurl" style="color: red;"></span></p>
+                <p>Token(令牌)：<span style="color: red;">moewxms</span></p>
                 <p>EncodingAESKey(消息加解密密钥)：点击随机生成得到密钥，不需要自己填写</p>
                 <p>消息加解密方式： 根据自己的需要选择其中一种</p>
                 </div>
                 <div class="col-sm-2"></div>
+                <div class="divider15"></div>
+              </div>
+              <div id="step3" style="display: none;">
+                <div class="form-group">
+                  <label for="input1" class="col-sm-2 control-label">AppID：</label>
+                  <div class="col-sm-8">
+                    <input type="text" name="appid" class="form-control" id="input1" placeholder="应用ID" value=""></div>
+                  <div class="col-sm-2"></div>
+                </div>
+                <div class="form-group">
+                  <label for="input1" class="col-sm-2 control-label">AppSecret：</label>
 
-              
+                  <div class="col-sm-8">
+                    <input type="text" name="appsecret" class="form-control" id="input1" placeholder="应用密钥" value=""></div>
+                  <div class="col-sm-2"></div>
+                </div>
+                <div class="form-group">
+                  <label for="input1" class="col-sm-2 control-label">EncodingAESKey：</label>
+                  <div class="col-sm-8">
+                    <input type="text" name="encodingaeskey" class="form-control" id="input1" placeholder="安全模式下必填" value=""></div>
+                  <div class="col-sm-2"></div>
+                </div>
               </div>
             </div>
             <div class="box-footer">
               <div class="col-sm-9">
-                <!-- <a href="${ctxroot}/sys/role" class="btn btn-default pull-right">返回</a>
-              -->
-              <button id="prevbtn" type="button" class="btn btn-info pull-right" onclick="prev();">上一步</button>
-              <!-- <button type="submit" class="btn btn-info pull-right" onclick="">保存</button>
-            -->
+              <a id="indexbtn" href="${ctxroot}/weixin/index/list" class="btn btn-default pull-right">返回</a>
+              <button id="prevbtn" type="button" class="btn btn-info pull-right" style="display: none;" onclick="prev();">上一步</button>
+              
           </div>
           <div class="col-sm-1">
             <button id="nextbtn" type="button" class="btn btn-info pull-right" onclick="next();">下一步</button>
+            <button id="submitbtn" type="button" style="display: none;" class="btn btn-info pull-right" onclick="saveform();">保存</button>
           </div>
           <div class="col-sm-2"></div>
         </div>
@@ -223,48 +242,126 @@
 <script src="${ctxroot}/static/qxms/js/menu.js"></script>
 <script type="text/javascript">
   //menu_active('10002,10004');
+    $(document).ready(function(){
+      // var appid = $("input[name='appid']").val();
+      // var appsecret = $("input[name='appsecret']").val();
+      // var encodingaeskey = $("input[name='encodingaeskey']").val();
+      // var publicname = $("input[name='publicname']").val();
+      // var publicid = $("input[name='publicid']").val();
+      // var wechat = $("input[name='wechat']").val();
+
+
+    });
 
     function next() {
       var step = $("input[name='step']").val();
 
       if(step == 1){
         //第一步
-        $("input[name='pid']").val('');   
-        var url = actionurl + "/index/getpid";
-        $.post(url, {}, function(data) {
-          var obj = $.parseJSON(data);
-          $("input[name='pid']").val(obj.id);          
-        });
-        $("#step1").css("display","none");
+        //先验证表单
+        var publicname = $("input[name='publicname']").val();
+        var publicid = $("input[name='publicid']").val();
+        var wechat = $("input[name='wechat']").val();
 
+        if(publicname == ''){
+          Alert("公众号名称不能为空");
+        }else if(publicid == ''){
+          Alert("原始ID不能为空");
+        }else if(wechat == ''){
+          Alert("微信号不能为空");
+        }else{
+          var url = actionurl + "/index/yzpublicid";
+          $.post(url, {"publicid" : publicid}, function(data){
+            if(data == 0){
+              $("input[name='step']").val(2);
+              var pid = $("input[name='pid']").val();   
+              if(pid == ''){
+                var url = actionurl + "/index/getpid";
+                $.post(url, {}, function(data) {
+                  var obj = $.parseJSON(data);          
+                  $("input[name='pid']").val(obj.id);  
+                  $("#msgurl").html(obj.msgurl);
+                });
+              }
+
+              $("#step1").css("display","none");
+              $("#step2").css("display","block");
+              $("#indexbtn").css("display","none");
+              $("#prevbtn").css("display","block");  
+            }else{
+              Alert("原始ID已经存在，请不要重复录入。");
+            }
+          });       
+        }
       }else if(step == 2){
         //第二步
-
+        $("input[name='step']").val(3);
+        $("#step2").css("display","none");
+        $("#step3").css("display","block");
+        $("#submitbtn").css("display","block");
+        $("#nextbtn").css("display","none");
+      }else if(step == 3){
 
       }
 
     }
 
     function prev() {
-      
+      var step = $("input[name='step']").val();
+
+      if(step == 2){
+        $("input[name='step']").val(1);
+        $("#indexbtn").css("display","block");
+        $("#prevbtn").css("display","none");
+        $("#step2").css("display","none");
+        $("#step1").css("display","block");        
+      }else if(step == 3){
+        $("input[name='step']").val(2);
+        $("#step3").css("display","none");
+        $("#step2").css("display","block");  
+        $("#submitbtn").css("display","none");
+        $("#nextbtn").css("display","block");
+      }
+
+
     }
 
 
     //表单提交
     function saveform(){
       //验证表单
+      var pid = $("input[name='pid']").val();
+      var appid = $("input[name='appid']").val();
+      var appsecret = $("input[name='appsecret']").val();
+      var encodingaeskey = $("input[name='encodingaeskey']").val();
+      var publicname = $("input[name='publicname']").val();
+      var publicid = $("input[name='publicid']").val();
+      var wechat = $("input[name='wechat']").val();
 
-
-      var dname = $("input[name='dname']").val();
-      var sort = $("input[name='sort']").val();
-
-
-      if(dname == ''){
-        Alert("部门名称不能为空");
+      if(appid == ''){
+        Alert("AppID不能为空");
+      }else if(appsecret == ''){
+        Alert("AppSecret不能为空");
       }else{
-        $('#form1')[0].submit();
+        //ajax提交
+        var url = actionurl + "/index/savepiblic";
+        $.post(url, {
+          "pid":pid,
+          "appid":appid,
+          "appsecret":appsecret,
+          "encodingaeskey":encodingaeskey,
+          "publicname":publicname,
+          "publicid":publicid,
+          "wechat":wechat
+        }, function(data){
+          if(data == 1){
+            Alert();
+          }else{
+
+          }
+        });
       }
-      
+
     };
 
   </script>

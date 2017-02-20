@@ -1,5 +1,7 @@
 package me.moe.modules.sys.controller;
 
+import javax.servlet.http.HttpServletRequest;
+
 import com.jfinal.aop.Clear;
 import com.jfinal.core.Controller;
 
@@ -16,9 +18,11 @@ public class TestController extends Controller {
 	}
 	
 	public void test(){
+		HttpServletRequest request = getRequest();
+		String path = request.getContextPath();
+        String basePath = request.getScheme() + "://"+ request.getServerName() + ":" + request.getServerPort()+ path + "/";  
 		
-
-		renderText("IJIJIJIJIJI");
+		renderText(basePath);
 	}
 	
 	public static void main(String[] args) {

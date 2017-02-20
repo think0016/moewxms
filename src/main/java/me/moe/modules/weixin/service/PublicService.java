@@ -16,6 +16,15 @@ public class PublicService {
 		return Public.dao.find(sql, uid);
 	}	
 	
+	public Public getPublicByPublicid(String publicid){
+		String sql = "select * from wx_public where public_id = ?";		
+		return Public.dao.findFirst(sql, publicid);		
+	}
+	
+	public boolean deletepublic(String id){
+		return Public.dao.deleteById(id);
+	}
+	
 	public ApiConfig getApiConfig(String id) {
 		ApiConfig ac = new ApiConfig();
 
