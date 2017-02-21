@@ -141,9 +141,9 @@
                         <td>${p.createdate!}</td>
                         <td>
                           <div class="btn-group">
-                          	<a href="" class="btn btn-xs btn-default" onclick="">进入管理</a>
-                            <a href="" class="btn btn-xs btn-default" onclick="">修改</a>
-                            <a href="#" class="btn btn-xs btn-default" onclick="delfm();">删除</a>
+                          	<a href="${ctxroot}/weixin/index/${p.id!}" class="btn btn-xs btn-default" onclick="">进入管理</a>
+                            <a href="${ctxroot}/weixin/index/form/${p.id!}" class="btn btn-xs btn-default" onclick="">修改</a>
+                            <button class="btn btn-xs btn-default" onclick="delfm('${p.id!}');">删除</button>
                             
                           </div>
                         </td>
@@ -222,29 +222,29 @@
 <script type="text/javascript">
  //    menu_active('10002,10004');
 
- //    function del(){
- //      var did = $("input[name='del_id']").val();
- //        if(did == ''){
- //          Alert("删除失败");
- //        }else{
- //        url = actionurl + "/role/delete/"+did;
- //        jQuery.post(url, {'did':did}, function(data){
- //          if(data == '1'){
- //            Alert("删除成功",refresh);
- //          }else{
- //            Alert("删除失败",refresh);
- //          }
- //        });
- //      }
- //    }
+    function del(){
+      var id = $("input[name='del_id']").val();
+        if(id == ''){
+          Alert("删除失败");
+        }else{
+        url = actionurl + "/index/deletepublic/";
+        jQuery.post(url, {'id':id}, function(data){
+          if(data == '1'){
+            Alert("删除成功",refresh);
+          }else{
+            Alert("删除失败",refresh);
+          }
+        });
+      }
+    }
 
- //    function delfm(did){
- //      $("input[name='del_id']").val(did);
- //      $('#delcfmModel').modal('show');
- //    }
- //    var refresh = function(){
-	//   window.location.href = actionurl + "/role/list";
-	// }
+    function delfm(id){
+      $("input[name='del_id']").val(id);
+      $('#delcfmModel').modal('show');
+    }
+    var refresh = function(){
+	  window.location.href = actionurl + "/index/list";
+	}
   </script>
 </body>
 </html>

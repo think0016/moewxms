@@ -11,12 +11,17 @@ import me.moe.modules.weixin.model.Public;
 
 public class PublicService {
 	
-	public List<Public> getPublicByUid(Integer uid){
+	public Public findPublicById(String id){
+		//String sql = "select * from wx_public where id = ?";		
+		return Public.dao.findById(id);
+	}
+	
+	public List<Public> findPublicByUid(Integer uid){
 		String sql = "select * from wx_public where uid = ?";
 		return Public.dao.find(sql, uid);
 	}	
 	
-	public Public getPublicByPublicid(String publicid){
+	public Public findPublicByPublicid(String publicid){
 		String sql = "select * from wx_public where public_id = ?";		
 		return Public.dao.findFirst(sql, publicid);		
 	}

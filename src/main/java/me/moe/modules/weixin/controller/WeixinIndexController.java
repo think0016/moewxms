@@ -1,5 +1,6 @@
 package me.moe.modules.weixin.controller;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -8,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.lang3.StringUtils;
 
 import com.google.gson.Gson;
+import com.jfinal.plugin.ehcache.CacheKit;
 
 import me.moe.common.utils.UUIDGenerator;
 import me.moe.model.User;
@@ -18,14 +20,23 @@ public class WeixinIndexController extends WeixinBaseController {
 	private PublicService publicService = new PublicService();
 
 	public void index() {
-
+		User cuser = (User) getSession().getAttribute("cache_user");
+		String publicappid = getPara(0);
+		Public publicapp =new Public();
+		if(StringUtils.isNotEmpty(publicappid)){
+			publicapp = publicService.findPublicById(publicappid);
+			getSession().setAttribute("cache_wxpublic", publicapp);
+			String key = "cache_wxpublic_"+cuser.getUid();
+			CacheKit.put("session", key, publicapp);
+			setAttr("cache_wxPublicName", publicapp.getPublicName());
+		}
 		render("index.html");
 	}
 
 	public void list() {
 		User cuser = (User) getSession().getAttribute("cache_user");
 
-		List<Public> publiclist = publicService.getPublicByUid(cuser.getUid());
+		List<Public> publiclist = publicService.findPublicByUid(cuser.getUid());
 		setAttr("plist", publiclist);
 		render("list.html");
 	}
@@ -33,12 +44,27 @@ public class WeixinIndexController extends WeixinBaseController {
 	public void form() {
 		// setAttr("path", getRequest().getScheme() + "://"+
 		// getRequest().getServerName() + getRequest().getContextPath());
-		setAttr("subtitle", "新增公众号");
+		String publicappid = getPara(0);
+		
+		String update = "0";
+		Public publicapp = new Public();
+		if(StringUtils.isNotEmpty(publicappid)){
+			update = "1";
+			publicapp = publicService.findPublicById(publicappid);			
+			setAttr("subtitle", "修改公众号");
+		}else{
+			
+			setAttr("subtitle", "新增公众号");
+		}
+		setAttr("publicapp", publicapp);
+		setAttr("update", update);
+
 
 		render("addform.html");
 	}
 
 	public void savepiblic() {
+		boolean flag = false;
 		User cuser = (User) getSession().getAttribute("cache_user");
 		String pid = getPara("pid");
 		String appid = getPara("appid");
@@ -47,6 +73,8 @@ public class WeixinIndexController extends WeixinBaseController {
 		String publicname = getPara("publicname");
 		String publicid = getPara("publicid");
 		String wechat = getPara("wechat");
+		String update = getPara("update");
+		String interfaceUrl = getPara("interfaceUrl");
 
 		Public publicapp = new Public();
 		publicapp.setId(pid);
@@ -56,11 +84,20 @@ public class WeixinIndexController extends WeixinBaseController {
 		publicapp.setWechat(wechat);
 		publicapp.setAppid(appid);
 		publicapp.setSecret(appsecret);
+		publicapp.setInterfaceUrl(interfaceUrl);
+		publicapp.setCreatedate(new Date());
 		if (StringUtils.isNotEmpty(encodingaeskey)) {
 			publicapp.setIsencryptMessage(1);
 			publicapp.setEncodingaeskey(encodingaeskey);
 		}
-		if (publicapp.save()) {
+		
+		if("0".equals(update)){
+			flag = publicapp.save();
+		}else{
+			flag = publicapp.update();
+		}		
+		
+		if (flag) {
 			renderText("1");
 		} else {
 			renderText("0");
@@ -73,7 +110,7 @@ public class WeixinIndexController extends WeixinBaseController {
 	 */
 	public void yzpublicid() {
 		String publicid = getPara("publicid");
-		Public publicapp = publicService.getPublicByPublicid(publicid);
+		Public publicapp = publicService.findPublicByPublicid(publicid);
 		if (publicapp == null) {
 			renderText("0");
 		} else {
