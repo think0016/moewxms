@@ -50,7 +50,7 @@ public class WeixinMsgController extends MsgController {
 		// TODO Auto-generated method stub
 		String msgContent = inTextMsg.getContent().trim();		
 		OutTextMsg outMsg = new OutTextMsg(inTextMsg);
-		outMsg.setContent("\tMOE文本消息已成功接收，内容为： " + msgContent);
+		outMsg.setContent("\tMOEWXMS文本消息已成功接收，内容为： " + msgContent);
 		render(outMsg);
 		
 	}
@@ -100,7 +100,9 @@ public class WeixinMsgController extends MsgController {
 	@Override
 	protected void processInFollowEvent(InFollowEvent inFollowEvent) {
 		// TODO Auto-generated method stub
-
+		OutTextMsg outMsg = new OutTextMsg(inFollowEvent);
+		outMsg.setContent("MOEWXMS测试关注数据！！！");
+		render(outMsg);
 	}
 
 	@Override

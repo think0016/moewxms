@@ -133,7 +133,7 @@ public class WeixinIndexController extends WeixinBaseController {
 	public void getpid() {
 		String uuid = UUIDGenerator.getUUID();
 		HttpServletRequest request = getRequest();
-		String msgurl = request.getScheme() + "://" + request.getServerName() + request.getContextPath() + "/msg/"
+		String msgurl = request.getScheme() + "://" + request.getServerName() + request.getContextPath() + "/weixin/msg/"
 				+ uuid;
 		HashMap<String, String> rs = new HashMap<String, String>();
 		rs.put("id", uuid);
