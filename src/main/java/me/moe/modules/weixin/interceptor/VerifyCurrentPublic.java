@@ -14,14 +14,12 @@ public class VerifyCurrentPublic implements Interceptor {
 		if(publicapp == null){
 			//System.out.println("---未登录---");
 			//inv.getController().redirect("/login");
-			inv.getController().setAttr("msg1", "登录失效请重新登录");
+			inv.getController().setAttr("errormsg", "请绑定公众号后操作");
 			inv.getController().forwardAction("/weixin/index/list");
 		}else{
 			inv.getController().setAttr("cache_wxPublicName", publicapp.getPublicName());
 			inv.invoke();
-		}
-		
-		
+		}		
 	}
 
 }

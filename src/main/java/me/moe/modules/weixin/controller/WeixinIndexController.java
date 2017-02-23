@@ -53,13 +53,10 @@ public class WeixinIndexController extends WeixinBaseController {
 			publicapp = publicService.findPublicById(publicappid);			
 			setAttr("subtitle", "修改公众号");
 		}else{
-			
 			setAttr("subtitle", "新增公众号");
 		}
 		setAttr("publicapp", publicapp);
 		setAttr("update", update);
-
-
 		render("addform.html");
 	}
 
