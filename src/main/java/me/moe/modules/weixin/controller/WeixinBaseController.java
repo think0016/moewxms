@@ -13,11 +13,17 @@ import me.moe.modules.weixin.service.PublicService;
  */
 public class WeixinBaseController extends ApiController {
 	private PublicService publicService = new PublicService();
+	protected String current_token = "";
+	
 	
 	@Override
 	public ApiConfig getApiConfig() {
 		// TODO Auto-generated method stub
 		Public publicapp = (Public)getSession().getAttribute("cache_wxpublic");
+		if(publicapp != null){
+			this.current_token = publicapp.getToken();
+		}
+		
 //		String id = "96d0628b4a1844c58ab2b6baedf77be6";
 //		PublicService ps = new PublicService();
 		return publicService.getApiConfig(publicapp);

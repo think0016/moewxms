@@ -17,6 +17,14 @@ public abstract class BaseMaterialText<M extends BaseMaterialText<M>> extends Mo
 		return get("id");
 	}
 
+	public void setMname(java.lang.String mname) {
+		set("mname", mname);
+	}
+
+	public java.lang.String getMname() {
+		return get("mname");
+	}
+	
 	public void setContent(java.lang.String content) {
 		set("content", content);
 	}

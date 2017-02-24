@@ -83,6 +83,8 @@ public class WeixinIndexController extends WeixinBaseController {
 		publicapp.setSecret(appsecret);
 		publicapp.setInterfaceUrl(interfaceUrl);
 		publicapp.setCreatedate(new Date());
+		publicapp.setToken(publicid);
+		
 		if (StringUtils.isNotEmpty(encodingaeskey)) {
 			publicapp.setIsencryptMessage(1);
 			publicapp.setEncodingaeskey(encodingaeskey);

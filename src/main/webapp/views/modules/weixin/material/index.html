@@ -12,6 +12,8 @@
   <link rel="stylesheet" href="${ctxroot}/static/plugins/font-awesome/css/font-awesome.min.css">
   <!-- Ionicons -->
   <link rel="stylesheet" href="${ctxroot}/static/plugins/other/ionicons.min.css">
+  <!-- DataTables -->
+  <link rel="stylesheet" href="${ctxroot}/static/plugins/datatables/dataTables.bootstrap.css">
   <!-- Theme style -->
   <link rel="stylesheet" href="${ctxroot}/static/dist/css/admincore.css">
   <!-- AdminLTE Skins. Choose a skin from the css/skins
@@ -24,6 +26,10 @@
   <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
   <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
   <![endif]-->
+  <script type="text/javascript">
+    var rooturl = '${ctxroot}'; 
+    var actionurl = rooturl + "/weixin"; 
+  </script>
 </head>
 <body class="hold-transition skin-green-light sidebar-mini">
   <!-- Site wrapper -->
@@ -107,84 +113,119 @@
           </div>
         </#if>
         <!-- 提示框 END --> </div>
-        <div class="col-md-12">
-          <!-- Custom Tabs -->
-          <div class="nav-tabs-custom">
-            <ul class="nav nav-tabs">
-              <li class="active"><a href="#tab_1" data-toggle="tab">图文素材</a></li>
-              <li><a href="#tab_2" data-toggle="tab">图片素材</a></li>
-              <li><a href="#tab_3" data-toggle="tab">语音素材</a></li>
-              <li><a href="#tab_4" data-toggle="tab">视频素材</a></li>
-              <li><a href="#tab_5" data-toggle="tab">文本素材</a></li>
-              <!-- <li class="pull-right"><a href="#" class="text-muted"><i class="fa fa-gear"></i></a></li> -->
-            </ul>
-            <div class="tab-content">
-              <div class="tab-pane active" id="tab_1">
-                <b>How to use:</b>
+      <div class="col-md-12">
+        <!-- Custom Tabs -->
+        <div class="nav-tabs-custom">
+          <ul class="nav nav-tabs">
+            <li class="active">
+              <a href="#tab_1" data-toggle="tab">图文</a>
+            </li>
+            <li>
+              <a href="#tab_2" data-toggle="tab">图片</a>
+            </li>
+            <li>
+              <a href="#tab_3" data-toggle="tab">语音</a>
+            </li>
+            <li>
+              <a href="#tab_4" data-toggle="tab">视频</a>
+            </li>
+            <li>
+              <a href="#tab_5" data-toggle="tab">文本</a>
+            </li>
+            <!-- <li class="pull-right">
+            <a href="#" class="text-muted">
+              <i class="fa fa-gear"></i>
+            </a>
+          </li>
+          -->
+        </ul>
+        <div class="tab-content">
+          <div class="tab-pane active" id="tab_1"> <b>How to use:</b>
 
-                <p>Exactly like the original bootstrap tabs except you should use
-                  the custom wrapper <code>.nav-tabs-custom</code> to achieve this style.</p>
-                A wonderful serenity has taken possession of my entire soul,
+            <p>
+              Exactly like the original bootstrap tabs except you should use
+                  the custom wrapper
+              <code>.nav-tabs-custom</code>
+              to achieve this style.
+            </p>
+            A wonderful serenity has taken possession of my entire soul,
                 like these sweet mornings of spring which I enjoy with my whole heart.
                 I am alone, and feel the charm of existence in this spot,
                 which was created for the bliss of souls like mine. I am so happy,
                 my dear friend, so absorbed in the exquisite sense of mere tranquil existence,
                 that I neglect my talents. I should be incapable of drawing a single stroke
                 at the present moment; and yet I feel that I never was a greater artist than now.
-              </div>
-              <!-- /.tab-pane -->
-              <div class="tab-pane" id="tab_2">
-                The European languages are members of the same family. Their separate existence is a myth.
+          </div>
+          <!-- /.tab-pane -->
+          <div class="tab-pane" id="tab_2">
+            The European languages are members of the same family. Their separate existence is a myth.
                 For science, music, sport, etc, Europe uses the same vocabulary. The languages only differ
                 in their grammar, their pronunciation and their most common words. Everyone realizes why a
                 new common language would be desirable: one could refuse to pay expensive translators. To
                 achieve this, it would be necessary to have uniform grammar, pronunciation and more common
                 words. If several languages coalesce, the grammar of the resulting language is more simple
                 and regular than that of the individual languages.
-              </div>
-              <!-- /.tab-pane -->
-              <div class="tab-pane" id="tab_3">
-                Lorem Ipsum is simply dummy text of the printing and typesetting industry.
-                Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,
-                when an unknown printer took a galley of type and scrambled it to make a type specimen book.
-                It has survived not only five centuries, but also the leap into electronic typesetting,
-                remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset
-                sheets containing Lorem Ipsum passages, and more recently with desktop publishing software
-                like Aldus PageMaker including versions of Lorem Ipsum.
-              </div>
-              <!-- /.tab-pane -->
-              <!-- /.tab-pane -->
-              <div class="tab-pane" id="tab_4">
-                22222222222Lorem Ipsum is simply dummy text of the printing and typesetting industry.
-                Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,
-                when an unknown printer took a galley of type and scrambled it to make a type specimen book.
-                It has survived not only five centuries, but also the leap into electronic typesetting,
-                remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset
-                sheets containing Lorem Ipsum passages, and more recently with desktop publishing software
-                like Aldus PageMaker including versions of Lorem Ipsum.
-              </div>
-              <!-- /.tab-pane -->
-              <!-- /.tab-pane -->
-              <div class="tab-pane" id="tab_5">
-                1111111Lorem Ipsum is simply dummy text of the printing and typesetting industry.
-                Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,
-                when an unknown printer took a galley of type and scrambled it to make a type specimen book.
-                It has survived not only five centuries, but also the leap into electronic typesetting,
-                remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset
-                sheets containing Lorem Ipsum passages, and more recently with desktop publishing software
-                like Aldus PageMaker including versions of Lorem Ipsum.
-              </div>
-              <!-- /.tab-pane -->
-            </div>
-            <!-- /.tab-content -->
           </div>
-          <!-- nav-tabs-custom -->
-        </div>
-        <!-- /.col -->
-    </div>
+          <!-- /.tab-pane -->
+          <div class="tab-pane" id="tab_3">
+            Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+                Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,
+                when an unknown printer took a galley of type and scrambled it to make a type specimen book.
+                It has survived not only five centuries, but also the leap into electronic typesetting,
+                remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset
+                sheets containing Lorem Ipsum passages, and more recently with desktop publishing software
+                like Aldus PageMaker including versions of Lorem Ipsum.
+          </div>
+          <!-- /.tab-pane -->
+          <!-- /.tab-pane -->
+          <div class="tab-pane" id="tab_4">
+            <div class="box">
+              <div class="box-header with-border">
+                <h3 class="box-title">Bordered Table</h3>
+              </div>
+              <!-- /.box-header -->
+              <div class="box-body"></div>
+              <!-- /.box-body --> </div>
+          </div>
+          <!-- /.tab-pane -->
+          <!-- /.tab-pane -->
+          <div class="tab-pane" id="tab_5">
 
-  </section>
-  <!-- /.content -->
+            <div class="box">
+              <div class="box-header with-border">
+                <h3 class="box-title"></h3>
+
+                <div class="box-tools pull-left">
+                  <a class="btn btn-info btn-sm" href=""> <i class="fa fa-plus"></i>
+                    &nbsp;添加
+                  </a>
+                </div>
+
+              </div>
+              <!-- /.box-header -->
+              <div class="box-body">
+                <table id="table_text" class="potable table table-bordered table-hover">
+                  <thead>
+                    <tr>
+                      <th>素材名称</th>
+                      <th>文本内容</th>
+                      <th>创建时间</th>
+                      <th>操作</th>
+                    </tr>
+                  </thead>
+                </table>
+              </div>
+              <!-- /.box-body --> </div>
+
+
+            </div>
+          <!-- /.tab-pane --> </div>
+        <!-- /.tab-content --> </div>
+      <!-- nav-tabs-custom --> </div>
+    <!-- /.col --> </div>
+
+</section>
+<!-- /.content -->
 </div>
 <!-- /.content-wrapper -->
 
@@ -207,9 +248,52 @@
 <script src="${ctxroot}/static/plugins/slimScroll/jquery.slimscroll.min.js"></script>
 <!-- FastClick -->
 <script src="${ctxroot}/static/plugins/fastclick/fastclick.js"></script>
+<!-- DataTables -->
+<script src="${ctxroot}/static/plugins/datatables/jquery.dataTables.min.js"></script>
+<script src="${ctxroot}/static/plugins/datatables/dataTables.bootstrap.min.js"></script>
 <!-- AdminLTE App -->
 <script src="${ctxroot}/static/dist/js/app.min.js"></script>
 <!-- AdminLTE for demo purposes -->
 <script src="${ctxroot}/static/dist/js/demo.js"></script>
+<script type="text/javascript">
+
+  createtable('text', $("#table_text"));//文本素材
+  function createtable(type, obj) {
+    var url = actionurl + '/material/getmlist';
+    // $.post(url, {'type':type}, function(data){
+      // var jsonobj = jQuery.parseJSON(data);
+      table = obj.dataTable({
+        "ajax": {
+          "url": url,
+          //默认为data,这里定义为空，则只需要传不带属性的数据
+          "data": {'type':type},
+          "dataSrc": ""
+        },
+        "pageLength": 2,
+        "paging": false,
+        "info": false,
+        "lengthChange": false,
+        "searching": false,
+        "ordering": false,
+        "retrieve": true,
+        "autoWidth": false,
+        "language": {
+          "lengthMenu": "每页 _MENU_ 条记录",
+          "zeroRecords": "无素材记录",
+          "info": "第 _PAGE_ 页 ( 总共 _PAGES_ 页 )",
+          "infoEmpty": "无记录",
+          "infoFiltered": "(从 _MAX_ 条记录过滤)",
+          "oPaginate": {
+            "sFirst": "首页",
+            "sPrevious": "上页",
+            "sNext": "下页",
+            "sLast": "末页"
+          }
+        }
+      });
+
+    // });
+  }
+</script>
 </body>
 </html>

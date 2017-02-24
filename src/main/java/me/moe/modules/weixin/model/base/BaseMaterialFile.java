@@ -25,6 +25,14 @@ public abstract class BaseMaterialFile<M extends BaseMaterialFile<M>> extends Mo
 		return get("file_id");
 	}
 
+	public void setMname(java.lang.String mname) {
+		set("mname", mname);
+	}
+
+	public java.lang.String getMname() {
+		return get("mname");
+	}
+	
 	public void setCoverUrl(java.lang.String coverUrl) {
 		set("cover_url", coverUrl);
 	}

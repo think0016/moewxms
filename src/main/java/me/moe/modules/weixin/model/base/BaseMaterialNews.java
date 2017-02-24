@@ -17,6 +17,14 @@ public abstract class BaseMaterialNews<M extends BaseMaterialNews<M>> extends Mo
 		return get("id");
 	}
 
+	public void setMname(java.lang.String mname) {
+		set("mname", mname);
+	}
+
+	public java.lang.String getMname() {
+		return get("mname");
+	}
+	
 	public void setTitle(java.lang.String title) {
 		set("title", title);
 	}

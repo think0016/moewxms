@@ -53,6 +53,7 @@ public class PublicService {
 	}
 	
 	public ApiConfig getApiConfig(Public publicapp){
+		
 		ApiConfig ac = new ApiConfig();
 		if (publicapp != null) {
 			ac.setAppId(publicapp.getAppid());

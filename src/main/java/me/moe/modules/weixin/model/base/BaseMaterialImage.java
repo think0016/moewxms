@@ -17,6 +17,14 @@ public abstract class BaseMaterialImage<M extends BaseMaterialImage<M>> extends 
 		return get("id");
 	}
 
+	public void setMname(java.lang.String mname) {
+		set("mname", mname);
+	}
+
+	public java.lang.String getMname() {
+		return get("mname");
+	}
+	
 	public void setCoverId(java.lang.Integer coverId) {
 		set("cover_id", coverId);
 	}
