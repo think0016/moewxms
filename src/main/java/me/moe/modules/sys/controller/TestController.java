@@ -1,10 +1,15 @@
 package me.moe.modules.sys.controller;
 
+import java.util.Date;
+
 import javax.servlet.http.HttpServletRequest;
+
+import org.apache.commons.lang3.StringUtils;
 
 import com.jfinal.aop.Clear;
 import com.jfinal.core.Controller;
 
+import me.moe.common.utils.CommonTools;
 import me.moe.modules.weixin.model.Public;
 
 //import me.moe.modules.weixin.model.bean.Welcome;
@@ -40,6 +45,7 @@ public class TestController extends Controller {
 //		
 //		HashMap hm = gson.fromJson(str, HashMap.class);
 //		System.out.println(hm.get("itemid"));
+//		System.out.println(CommonTools.dateTostring("yyyyMMdd", new Date()));
 		
 	}
 }

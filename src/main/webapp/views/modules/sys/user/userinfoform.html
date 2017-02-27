@@ -152,7 +152,7 @@
                   <div class="form-group">
                     <label for="input1" class="col-sm-2 control-label">头像：</label>
                     <div class="col-sm-8">
-                    <img id="headphotoimg" style="width: 60px;height: 60px;" src="${ctxroot}${user.realHeadphoto!}">
+                    <img id="headphotoimg" style="width: 60px;height: 60px;" src="${ctxroot}${user.realHeadphoto!}"/>
                       <span class="btn btn-primary fileinput-button"><span>上传</span>
                         <input id="fileupload" type="file" name="headphoto">
                       </span>
@@ -320,7 +320,7 @@
                 // });
                 var rs = $.parseJSON(data.result);
                 if(rs.status=="1"){
-                  var imgurl = actionurl + "/upload/headphoto/"+rs.msg;
+                  var imgurl = rooturl + "/upload/headphoto/"+rs.msg;
                   $("#headphotoimg").attr("src",imgurl);
                   $("input[name='headphotourl']").val("/upload/headphoto/"+rs.msg);
                 }else{

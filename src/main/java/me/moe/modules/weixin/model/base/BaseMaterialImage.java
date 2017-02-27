@@ -25,20 +25,20 @@ public abstract class BaseMaterialImage<M extends BaseMaterialImage<M>> extends 
 		return get("mname");
 	}
 	
-	public void setCoverId(java.lang.Integer coverId) {
-		set("cover_id", coverId);
+	public void setFileId(java.lang.Integer fileId) {
+		set("file_id", fileId);
 	}
 
-	public java.lang.Integer getCoverId() {
-		return get("cover_id");
+	public java.lang.Integer getFileId() {
+		return get("file_id");
 	}
 
-	public void setCoverUrl(java.lang.String coverUrl) {
-		set("cover_url", coverUrl);
+	public void setFileUrl(java.lang.String fileUrl) {
+		set("file_url", fileUrl);
 	}
 
-	public java.lang.String getCoverUrl() {
-		return get("cover_url");
+	public java.lang.String getFileUrl() {
+		return get("file_url");
 	}
 
 	public void setMediaId(java.lang.String mediaId) {

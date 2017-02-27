@@ -32,6 +32,22 @@ public class MoeFileUtils {
 		return flag;		
 	}
 	
+	public static boolean isVideo(String ContentType){
+		boolean flag = false;
+		if("video/mpeg4".equals(ContentType)){
+			flag = true;
+		}
+		return flag;	
+	}
+	
+	public static boolean isVoice(String ContentType){
+		boolean flag = false;
+		if("audio/mp3".equals(ContentType) ||"audio/x-ms-wma".equals(ContentType) || "audio/wav".equals(ContentType) || "image/bmp".equals(ContentType)){
+			flag = true;
+		}
+		return flag;	
+	}
+	
 	/**
 	 * 调整图片尺寸
 	 * @param srcImgPath
@@ -73,7 +89,14 @@ public class MoeFileUtils {
                 srcImg.getScaledInstance(width, height, Image.SCALE_SMOOTH), 0,  
                 0, null);  
   
-        ImageIO.write(buffImg, "JPEG", distImgFile);  
-  
+        ImageIO.write(buffImg, "JPEG", distImgFile);    
     }  	
+	
+	/**
+	 * 获取保存路径
+	 * @return
+	 */
+	public static String getpath(String rootpath){
+		return "";
+	}
 }

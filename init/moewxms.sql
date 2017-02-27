@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50516
 File Encoding         : 65001
 
-Date: 2017-02-24 18:19:18
+Date: 2017-02-27 18:43:31
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -168,7 +168,7 @@ CREATE TABLE `qx_user` (
 -- ----------------------------
 -- Records of qx_user
 -- ----------------------------
-INSERT INTO `qx_user` VALUES ('1', 'admin', 'ad20a56c5c52a265756c0fef3c3c6734abc82966663146cd4a44e710', 'O零壹O', '零壹', '10001', '男', 'qqqm@qq.com', '', '2016-11-23 09:24:36', '2017-02-24 17:54:46', '1', '/upload/headphoto/1_1486543051623.jpg', 'vvvvvvvvv');
+INSERT INTO `qx_user` VALUES ('1', 'admin', 'ad20a56c5c52a265756c0fef3c3c6734abc82966663146cd4a44e710', 'O零壹O', '零壹', '10001', '男', 'qqqm@qq.com', '', '2016-11-23 09:24:36', '2017-02-27 18:08:15', '1', '/upload/headphoto/1_1486543051623.jpg', 'vvvvvvvvv');
 INSERT INTO `qx_user` VALUES ('2', 'cs123', '9d5afcecb08de742e4e7734cecc199abaf4c867ec9bfa6041dce8817', 'DCDC', 'DCDC', '10002', '男', 'dasd', '', '2016-12-20 17:55:43', '2016-12-21 15:08:06', '0', '', 'dfff');
 INSERT INTO `qx_user` VALUES ('3', 'cacac', '399e334c4bb21a960c5174d814381471d51ade929d3209e39a6f3067', 'ddd', 'ddd', '10004', '男', 'fas@qq.com', '', '2016-12-27 16:19:28', null, '0', '', 'fff');
 INSERT INTO `qx_user` VALUES ('4', 'think0016', '95a73f98cbc5a4f81c872616462ffdca11404afa4174b5070aca5498', '王伟', '王伟', '10001', '男', 'asdasd@qq.com', '', '2016-12-28 15:28:26', '2016-12-28 16:50:20', '1', '', 'tt');
@@ -214,7 +214,7 @@ CREATE TABLE `wx_attachment` (
   `manager_id` int(10) DEFAULT NULL COMMENT '创建id',
   `createdate` datetime DEFAULT NULL COMMENT '上传时间',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of wx_attachment
@@ -297,7 +297,7 @@ CREATE TABLE `wx_material_file` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
   `mname` varchar(255) DEFAULT '' COMMENT '素材名称',
   `file_id` int(10) DEFAULT NULL COMMENT '上传文件附件id',
-  `cover_url` varchar(255) DEFAULT NULL COMMENT '本地URL',
+  `file_url` varchar(255) DEFAULT NULL COMMENT '本地URL',
   `media_id` varchar(100) DEFAULT '0' COMMENT '微信端图文消息素材的media_id',
   `wechat_url` varchar(255) DEFAULT NULL COMMENT '微信端的文件地址',
   `manager_id` int(10) DEFAULT NULL COMMENT '管理员ID',
@@ -323,8 +323,8 @@ DROP TABLE IF EXISTS `wx_material_image`;
 CREATE TABLE `wx_material_image` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
   `mname` varchar(255) DEFAULT '' COMMENT '素材名称',
-  `cover_id` int(10) DEFAULT NULL COMMENT '图片在本地的ID',
-  `cover_url` varchar(255) DEFAULT NULL COMMENT '本地URL',
+  `file_id` int(10) DEFAULT NULL COMMENT '图片在本地的ID',
+  `file_url` varchar(255) DEFAULT NULL COMMENT '本地URL',
   `media_id` varchar(100) DEFAULT '0' COMMENT '微信端图文消息素材的media_id',
   `wechat_url` varchar(255) DEFAULT NULL COMMENT '微信端的图片地址',
   `manager_id` int(10) DEFAULT NULL COMMENT '管理员ID',
@@ -384,12 +384,14 @@ CREATE TABLE `wx_material_text` (
   PRIMARY KEY (`id`),
   KEY `wx_material_text_f1` (`token`),
   CONSTRAINT `wx_material_text_f1` FOREIGN KEY (`token`) REFERENCES `wx_public` (`token`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of wx_material_text
 -- ----------------------------
 INSERT INTO `wx_material_text` VALUES ('1', '测试', '测试测试', 'gh_ca957753929e', '1', '1', '2017-02-24 15:40:38');
+INSERT INTO `wx_material_text` VALUES ('4', 'FGF', 'DDCD', 'gh_ca957753929e', '1', '1', '2017-02-27 14:18:57');
+INSERT INTO `wx_material_text` VALUES ('5', 'cvs', null, 'gh_ca957753929e', '1', '1', '2017-02-27 18:10:49');
 
 -- ----------------------------
 -- Table structure for wx_public

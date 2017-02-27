@@ -33,12 +33,12 @@ public abstract class BaseMaterialFile<M extends BaseMaterialFile<M>> extends Mo
 		return get("mname");
 	}
 	
-	public void setCoverUrl(java.lang.String coverUrl) {
-		set("cover_url", coverUrl);
+	public void setFileUrl(java.lang.String fileUrl) {
+		set("file_url", fileUrl);
 	}
 
-	public java.lang.String getCoverUrl() {
-		return get("cover_url");
+	public java.lang.String getFileUrl() {
+		return get("file_url");
 	}
 
 	public void setMediaId(java.lang.String mediaId) {
