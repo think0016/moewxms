@@ -39,10 +39,39 @@ public class WeixinMaterialController extends WeixinBaseController {
 
 	@Before({ VerifyCurrentPublic.class })
 	public void index() {
-
+//		String type = getPara(0);
+//		
+//		String tab = "1";
+//		
+//		if(StringUtils.isNotEmpty(type)){
+//			if("text".equals(type)){
+//				tab = "5";
+//			}else if("image".equals(type)){
+//				tab = "2";
+//			}
+//		}
+//		setAttr("tab", tab);
+//		render("index.html");
+		redirect("/weixin/material/list");
+	}
+	
+	@Before({ VerifyCurrentPublic.class })
+	public void list() {
+		String type = getPara(0);
+		
+		String tab = "1";
+		
+		if(StringUtils.isNotEmpty(type)){
+			if("text".equals(type)){
+				tab = "5";
+			}else if("image".equals(type)){
+				tab = "2";
+			}
+		}
+		
 		// List<MaterialText> mtextlist=
 		// materialTextService.findListByToken(this.current_token);
-
+		setAttr("tab", tab);
 		render("index.html");
 	}
 
@@ -79,8 +108,23 @@ public class WeixinMaterialController extends WeixinBaseController {
 
 	@Before({ VerifyCurrentPublic.class })
 	public void textform() {
-		setAttr("subtitle", "添加文本素材");
-
+		String materialid = getPara(0);
+		String subtitle = "添加文本素材";
+		String update = "0";
+		
+		MaterialText mt = new MaterialText();
+		if(StringUtils.isNotEmpty(materialid)){
+			subtitle = "修改文本素材";
+			update = "1";
+			mt = materialTextService.findMaterialTextById(materialid);
+			
+		}
+		
+		
+		setAttr("update", update);
+		setAttr("materialText", mt);
+		setAttr("subtitle", subtitle);
+		
 		render("textform.html");
 	}
 
@@ -90,6 +134,7 @@ public class WeixinMaterialController extends WeixinBaseController {
 		User cuser = (User) getSession().getAttribute("cache_user");
 		boolean flag = false;
 
+		String mid = getPara("mid");
 		String update = getPara("update");
 		String mname = getPara("mname");
 		String content = getPara("content");
@@ -101,16 +146,23 @@ public class WeixinMaterialController extends WeixinBaseController {
 		}
 
 		MaterialText mt = new MaterialText();
-		mt.setMname(mname);
-		mt.setContent(content);
-		mt.setCreatedate(createdate);
-		mt.setToken(publicapp.getToken());
-		mt.setManagerId(cuser.getUid());
+		if("1".equals(update)){
+			mt = materialTextService.findMaterialTextById(mid);
+			mt.setMname(mname);
+			mt.setContent(content);		
+			mt.setCreatedate(createdate);
+		}else{
+			mt.setMname(mname);
+			mt.setContent(content);
+			mt.setCreatedate(createdate);
+			mt.setToken(publicapp.getToken());
+			mt.setManagerId(cuser.getUid());
+		}
 
 		if ("1".equals(update)) {
-
+			flag = mt.update();
 		} else {
-			mt.save();
+			flag = mt.save();
 		}
 		if (flag) {
 			renderText("1");
@@ -120,6 +172,19 @@ public class WeixinMaterialController extends WeixinBaseController {
 
 	}
 
+	public void deletetextmaterial(){
+		String materialid = getPara("id");
+		String flag = "0";
+
+		if(StringUtils.isNotEmpty(materialid)){
+			if(materialTextService.delete(materialid)){
+				flag = "1";
+			}
+		}
+				
+		renderText(flag);
+	}
+	
 	@Before({ VerifyCurrentPublic.class })
 	public void imageform() {
 		setAttr("subtitle", "添加图片素材");
@@ -143,6 +208,10 @@ public class WeixinMaterialController extends WeixinBaseController {
 			String[] fileid_arr = StringUtils.split(fileid, ";");
 			for (int i = 0; i < fileid_arr.length; i++) {
 				//String cover_id = 
+				String attachment_id = fileid_arr[i];
+				//attachment_id = attachmentService.
+				
+				
 			}
 		}else{
 			result.put("msg", "图片文件不能为空");
@@ -184,6 +253,7 @@ public class WeixinMaterialController extends WeixinBaseController {
 					Attachment attachment = new Attachment();
 					attachment.setExt(MoeFileUtils.getExtname(uf.getOriginalFileName()));
 					attachment.setCreatedate(new Date());
+					attachment.setUrl("/weixin/" + middlepath +"/" + filename);
 					attachment.setFilename(filename);
 					attachment.setPath(path + filename);
 					attachment.setManagerId(cuser.getUid());

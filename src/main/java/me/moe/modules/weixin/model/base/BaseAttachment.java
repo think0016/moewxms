@@ -17,6 +17,14 @@ public abstract class BaseAttachment<M extends BaseAttachment<M>> extends Model<
 		return get("id");
 	}
 
+	public void setUrl(java.lang.String url) {
+		set("url", url);
+	}
+
+	public java.lang.String getUrl() {
+		return get("url");
+	}
+	
 	public void setFilename(java.lang.String filename) {
 		set("filename", filename);
 	}

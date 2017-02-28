@@ -8,6 +8,10 @@ import me.moe.modules.weixin.model.MaterialText;
 
 public class MaterialTextService {
 
+	public MaterialText findMaterialTextById(String id){
+		return MaterialText.dao.findById(id);		
+	}
+	
 	public List<MaterialText> findListByToken(String token){
 		String sql = "select * from `wx_material_text` where `token` = ? and is_use = 1";
 		
@@ -28,8 +32,13 @@ public class MaterialTextService {
 			
 			String[] temp_arr = {mname,content,createdate,id};
 			rs.add(temp_arr);
-		}	
-		
+		}
 		return rs;
+	}
+	
+	public boolean delete(String id){
+		MaterialText mt = this.findMaterialTextById(id);
+		mt.setIsUse(new Integer(0));		
+		return mt.update();
 	}
 }
