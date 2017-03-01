@@ -7,8 +7,15 @@ import me.moe.modules.weixin.model.MaterialImage;
 public class MaterialImageService {
 
 	public List<MaterialImage> findListByToken(String token){
-		String sql = "select * from `wx_material_image` where `token` = ? and is_use = 1";
-		
+		String sql = "select * from `wx_material_image` where `token` = ? and is_use = 1";		
 		return MaterialImage.dao.find(sql, token);
+	}
+	
+	public Long save(MaterialImage materialImage){
+		Long id = 0L;
+		if(materialImage.save()){
+			id = materialImage.getId();
+		}
+		return id;
 	}
 }

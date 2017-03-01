@@ -3,6 +3,10 @@ package me.moe.modules.weixin.service;
 import me.moe.modules.weixin.model.Attachment;
 
 public class AttachmentService {
+	public Attachment findAttachmentById(String id){		
+		return Attachment.dao.findById(id);
+	}	
+	
 	public long save(Attachment attachment){
 		boolean flag = attachment.save();
 		long id = 0;

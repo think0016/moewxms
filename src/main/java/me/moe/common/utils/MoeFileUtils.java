@@ -4,6 +4,7 @@ import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.Date;
 
 import javax.imageio.ImageIO;
 
@@ -98,5 +99,13 @@ public class MoeFileUtils {
 	 */
 	public static String getpath(String rootpath){
 		return "";
+	}
+	
+	/**
+	 * 按照"uid_时间戳"的格式重新生成文件文件名
+	 * @return
+	 */
+	public static String createfilename(String uid,String ext){
+		return uid+"_"+ (new Date().getTime()) + "." + ext;
 	}
 }

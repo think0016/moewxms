@@ -13,17 +13,20 @@ import org.apache.commons.lang3.StringUtils;
 
 import com.google.gson.Gson;
 import com.jfinal.aop.Before;
-import com.jfinal.core.JFinal;
 import com.jfinal.upload.UploadFile;
+import com.jfinal.weixin.sdk.api.ApiResult;
+import com.jfinal.weixin.sdk.api.MediaApi;
 
 import me.moe.common.utils.CommonTools;
 import me.moe.common.utils.MoeFileUtils;
 import me.moe.model.User;
 import me.moe.modules.weixin.interceptor.VerifyCurrentPublic;
 import me.moe.modules.weixin.model.Attachment;
+import me.moe.modules.weixin.model.MaterialImage;
 import me.moe.modules.weixin.model.MaterialText;
 import me.moe.modules.weixin.model.Public;
 import me.moe.modules.weixin.service.AttachmentService;
+import me.moe.modules.weixin.service.MaterialImageService;
 import me.moe.modules.weixin.service.MaterialTextService;
 
 /**
@@ -34,6 +37,7 @@ import me.moe.modules.weixin.service.MaterialTextService;
  */
 public class WeixinMaterialController extends WeixinBaseController {
 	private MaterialTextService materialTextService = new MaterialTextService();
+	private MaterialImageService materialImageService = new MaterialImageService(); 
 	private AttachmentService attachmentService = new AttachmentService();
 	private Gson gson = new Gson();
 
@@ -54,7 +58,7 @@ public class WeixinMaterialController extends WeixinBaseController {
 //		render("index.html");
 		redirect("/weixin/material/list");
 	}
-	
+
 	@Before({ VerifyCurrentPublic.class })
 	public void list() {
 		String type = getPara(0);
@@ -117,9 +121,7 @@ public class WeixinMaterialController extends WeixinBaseController {
 			subtitle = "修改文本素材";
 			update = "1";
 			mt = materialTextService.findMaterialTextById(materialid);
-			
 		}
-		
 		
 		setAttr("update", update);
 		setAttr("materialText", mt);
@@ -203,14 +205,36 @@ public class WeixinMaterialController extends WeixinBaseController {
 		
 		String fileid = getPara("fileid");
 		String mname = getPara("mname");
-
+		Date createdate = new Date();
+		if (StringUtils.isEmpty(mname)) {
+			mname = "无标题(" + CommonTools.dateTostring("yyyy-MM-dd HH:mm:ss", createdate) + ")";
+		}
+		
 		if (StringUtils.isNotEmpty(fileid)) {
 			String[] fileid_arr = StringUtils.split(fileid, ";");
 			for (int i = 0; i < fileid_arr.length; i++) {
 				//String cover_id = 
 				String attachment_id = fileid_arr[i];
 				//attachment_id = attachmentService.
+				Attachment attachment= attachmentService.findAttachmentById(attachment_id);
+				File file = new File(attachment.getPath());
+				ApiResult ar = MediaApi.addMaterial(file);
+				if(ar.isSucceed()){
+					//上传服务器成功
+					String arjson = ar.getJson();
+					HashMap<String,String> arobj = gson.fromJson(arjson, HashMap.class);
+					String media_id = arobj.get("media_id");
+					String wechat_url = arobj.get("url");
+					
+					//materialImageService.
+					
+					MaterialImage materialImage = new MaterialImage();
+					
+				}else{
+					result.put("msg", ar.getErrorMsg());
+				}
 				
+				//MaterialImage materialImage = new MaterialImage();
 				
 			}
 		}else{
@@ -234,16 +258,19 @@ public class WeixinMaterialController extends WeixinBaseController {
 			UploadFile uf = getFile("uploadimage");
 
 			// 设置保存路径
-			String rootpath = JFinal.me().getServletContext().getRealPath("upload/weixin") + "\\";
-			String middlepath = CommonTools.dateTostring("yyyyMMdd", new Date());
-			String path = rootpath + middlepath + "\\";
-			String filename = ((User) getSession().getAttribute("cache_user")).getUid().toString() + "_"
-					+ (new Date().getTime()) + "." + MoeFileUtils.getExtname(uf.getOriginalFileName());
-
+//			String rootpath = JFinal.me().getServletContext().getRealPath("upload/weixin") + File.separatorChar;
+//			String middlepath = CommonTools.dateTostring("yyyyMMdd", new Date());
+//			String path = rootpath + middlepath + File.separatorChar;
+//			String filename = ((User) getSession().getAttribute("cache_user")).getUid().toString() + "_"
+//					+ (new Date().getTime()) + "." + MoeFileUtils.getExtname(uf.getOriginalFileName());
+			
+			String filename = MoeFileUtils.createfilename(cuser.getUid().toString(), MoeFileUtils.getExtname(uf.getOriginalFileName()));
+			Map<String,String> pathinfo = this.getUploadPathInfo(filename);
+			
 			if (MoeFileUtils.isImg(uf.getContentType())) {
 
 				File srcFile = uf.getFile();
-				File destFile = new File(path + filename);
+				File destFile = new File(pathinfo.get("path"));
 
 				try {
 					// 调整尺寸
@@ -253,15 +280,15 @@ public class WeixinMaterialController extends WeixinBaseController {
 					Attachment attachment = new Attachment();
 					attachment.setExt(MoeFileUtils.getExtname(uf.getOriginalFileName()));
 					attachment.setCreatedate(new Date());
-					attachment.setUrl("/weixin/" + middlepath +"/" + filename);
+					attachment.setUrl(pathinfo.get("url"));
 					attachment.setFilename(filename);
-					attachment.setPath(path + filename);
+					attachment.setPath(pathinfo.get("path"));
 					attachment.setManagerId(cuser.getUid());
 					long id = attachmentService.save(attachment);
 
 					result.put("status", "1");
 					result.put("fileId", new Long(id).toString());
-					result.put("msg", middlepath + "/" + filename);
+					result.put("msg", pathinfo.get("url"));
 				} catch (IOException e) {
 					e.printStackTrace();
 				}

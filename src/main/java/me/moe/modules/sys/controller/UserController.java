@@ -345,7 +345,7 @@ public class UserController extends Controller {
 		UploadFile uf = getFile("headphoto");
 
 		if (MoeFileUtils.isImg(uf.getContentType())) {
-			String path = JFinal.me().getServletContext().getRealPath("upload/headphoto") + "\\";
+			String path = JFinal.me().getServletContext().getRealPath("upload/headphoto") + File.separator;
 			String filename = ((User) getSession().getAttribute("cache_user")).getUid().toString() + "_"
 					+ (new Date().getTime()) + "." + MoeFileUtils.getExtname(uf.getOriginalFileName());
 
