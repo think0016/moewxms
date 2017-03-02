@@ -16,6 +16,7 @@ import com.jfinal.aop.Before;
 import com.jfinal.upload.UploadFile;
 import com.jfinal.weixin.sdk.api.ApiResult;
 import com.jfinal.weixin.sdk.api.MediaApi;
+import com.jfinal.weixin.sdk.api.ReturnCode;
 
 import me.moe.common.utils.CommonTools;
 import me.moe.common.utils.MoeFileUtils;
@@ -97,7 +98,7 @@ public class WeixinMaterialController extends WeixinBaseController {
 			// datatablesArray.setData(rs);
 
 		} else if ("image".equals(type)) {
-
+			rs = materialImageService.gettabledataArray(this.current_token);
 		} else if ("voice".equals(type)) {
 
 		} else if ("video".equals(type)) {
@@ -226,15 +227,28 @@ public class WeixinMaterialController extends WeixinBaseController {
 					String media_id = arobj.get("media_id");
 					String wechat_url = arobj.get("url");
 					
-					//materialImageService.
-					
+					//入本地库
 					MaterialImage materialImage = new MaterialImage();
+					materialImage.setMname(mname);
+					materialImage.setFileId(Integer.valueOf(attachment_id).intValue());
+					materialImage.setFileUrl(attachment.getUrl());
+					materialImage.setMediaId(media_id);
+					materialImage.setWechatUrl(wechat_url);
+					materialImage.setManagerId(cuser.getUid());
+					materialImage.setCreatedate(new Date());
+					materialImage.setToken(publicapp.getToken());
+					Long miId = materialImageService.save(materialImage);
+					if(miId>0){
+						result.put("status", "1");
+						result.put("msg", "提交成功！");
+					}else{
+						result.put("msg", "提交失败");
+					};				
 					
 				}else{
-					result.put("msg", ar.getErrorMsg());
+					result.put("msg", ReturnCode.get(ar.getErrorCode()));
 				}
 				
-				//MaterialImage materialImage = new MaterialImage();
 				
 			}
 		}else{
@@ -245,7 +259,21 @@ public class WeixinMaterialController extends WeixinBaseController {
 		String json = gson.toJson(result);
 		renderText(json);
 	}
+	
+	@Before({ VerifyCurrentPublic.class })
+	public void deleteimagematerial(){
+		String materialid = getPara("id");
+		String flag = "0";
 
+		if(StringUtils.isNotEmpty(materialid)){
+			if(materialImageService.delete(materialid)){
+				flag = "1";
+			}
+		}
+				
+		renderText(flag);
+	}
+	
 	public void uploadfile() {
 		User cuser = (User) getSession().getAttribute("cache_user");
 		String uploadtype = getPara(0);

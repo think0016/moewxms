@@ -243,16 +243,18 @@
             'mname': mname
     			},
     			function(data, textStatus, xhr) {
-    				//optional stuff to do after success
-    				// if(data == "1"){
-    				// 	Alert("保存成功！");
-    				// }else{
-    				// 	Alert("保存失败！");
-    				// }
-            console.log(data);
+            var obj = jQuery.parseJSON(data);
+            if(obj.status == "1"){
+              Alert(obj.msg);
+            }else{
+              Alert(obj.msg);
+            }
     			});
     	}
     };
 
+  var refresh = function() {
+    window.location.href = actionurl + "/material/list/image";
+  };
   </script></body>
 </html>
