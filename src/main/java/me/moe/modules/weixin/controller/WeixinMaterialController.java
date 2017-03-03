@@ -261,7 +261,6 @@ public class WeixinMaterialController extends WeixinBaseController {
 	@Before({ VerifyCurrentPublic.class })
 	public void deleteimagematerial(){
 		String materialid = getPara("id");
-		String flag = "0";
 
 		Map<String, String> result = new HashMap<String, String>();
 		result.put("status", "0");
