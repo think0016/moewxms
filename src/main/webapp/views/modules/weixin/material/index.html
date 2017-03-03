@@ -287,7 +287,7 @@
   }
 
 
-  createtable('text', $("#table_text"));//文本素材
+  //createtable('text', $("#table_text"));//文本素材
   createtable('image', $("#table_image"));//图片素材
   function createtable(type, obj) {
     var url = actionurl + '/material/getmlist';
@@ -327,7 +327,7 @@
         }
       });
     }else if(type == 'image'){
-      texttable = obj.DataTable({
+      imagetable = obj.DataTable({
         "ajax": {
           "url": url,
           //默认为data,这里定义为空，则只需要传不带属性的数据
@@ -346,13 +346,13 @@
         {
             "targets": 1,
             "render":function(data, type, row) {
-                return "<button type=\"button\" class=\"btn btn-info btn-xs updatebtn\"  onclick=\"\">修改</button>&nbsp;<button type=\"button\" class=\"btn btn-danger btn-xs deletebtn\" onclick=\"\">删除</button>";
+                return "<img src=\"" + rooturl + "/upload/weixin/" + data + "\" style=\"width: 180px;height: 140px;\">";
             }
         },
         {
             "targets": 3,
             "render":function(data, type, row) {
-
+                return "<button type=\"button\" class=\"btn btn-danger btn-xs deletebtn\" onclick=\"deletematerial('image'," + data +");\">删除</button>";
             }
         }],
         "language": {
@@ -393,26 +393,29 @@
     });
   });
 
-  function delete(type,id){
+  function deletematerial(type,id){
     if(type == 'image'){
       var url = actionurl + '/material/deleteimagematerial/';
       jQuery.post(url, {"id": id}, function(data, textStatus, xhr) {
         //optional stuff to do after success
-        if(data == '1'){
+        var obj = jQuery.parseJSON(data);
+        if(obj.status == '1'){
           Alert("删除成功！",function(){window.location.href = actionurl + "/material/list/image";});
         }else{
-          Alert("删除失败！");
+          Alert("删除失败！"+ obj.msg);
         }
       });
     }
-  }
+  };
 
-  function update(type,id){
+  function updatematerial(type,id){
     if(type == 'image'){
       var url = actionurl + '/material/imageform/' + id;
       window.location.href = url;
     }
-  }
+  };
+
+
 </script>
 </body>
 </html>

@@ -255,9 +255,7 @@ public class WeixinMaterialController extends WeixinBaseController {
 			result.put("msg", "图片文件不能为空");
 		}
 
-		Gson gson = new Gson();
-		String json = gson.toJson(result);
-		renderText(json);
+		renderText(gson.toJson(result));
 	}
 	
 	@Before({ VerifyCurrentPublic.class })
@@ -265,13 +263,29 @@ public class WeixinMaterialController extends WeixinBaseController {
 		String materialid = getPara("id");
 		String flag = "0";
 
+		Map<String, String> result = new HashMap<String, String>();
+		result.put("status", "0");
+		result.put("msg", "");
+		
 		if(StringUtils.isNotEmpty(materialid)){
-			if(materialImageService.delete(materialid)){
-				flag = "1";
-			}
+			MaterialImage materialImage = materialImageService.findMaterialImageById(materialid);
+			
+			String media_Id = materialImage.getMediaId();
+			ApiResult ar = MediaApi.delMaterial(media_Id);
+			
+			if(ar.isSucceed()){
+				if (materialImageService.delete(materialid)) {
+					result.put("status", "1");
+					result.put("msg", "删除成功");
+				}else{
+					result.put("msg", "删除失败");
+				}				
+			}else{
+				result.put("msg", ReturnCode.get(ar.getErrorCode()));
+			}		
 		}
 				
-		renderText(flag);
+		renderText(gson.toJson(result));
 	}
 	
 	public void uploadfile() {

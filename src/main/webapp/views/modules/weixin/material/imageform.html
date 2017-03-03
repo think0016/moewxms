@@ -245,7 +245,7 @@
     			function(data, textStatus, xhr) {
             var obj = jQuery.parseJSON(data);
             if(obj.status == "1"){
-              Alert(obj.msg);
+              Alert(obj.msg , refresh);
             }else{
               Alert(obj.msg);
             }

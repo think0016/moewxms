@@ -44,6 +44,11 @@ public class MaterialImageService {
 		return rs;
 	}
 	
+	public boolean delete(MaterialImage mi){
+		mi.setIsUse(new Integer(0));	
+		return mi.update();
+	}
+	
 	public boolean delete(String id){
 		MaterialImage mi = this.findMaterialImageById(id);
 		mi.setIsUse(new Integer(0));		
