@@ -186,23 +186,59 @@
           </div>
           <!-- /.tab-pane -->
           <div class="tab-pane" id="tab_3">
-            Lorem Ipsum is simply dummy text of the printing and typesetting industry.
-                Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,
-                when an unknown printer took a galley of type and scrambled it to make a type specimen book.
-                It has survived not only five centuries, but also the leap into electronic typesetting,
-                remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset
-                sheets containing Lorem Ipsum passages, and more recently with desktop publishing software
-                like Aldus PageMaker including versions of Lorem Ipsum.
+            <div class="box">
+              <div class="box-header with-border">
+                <h3 class="box-title"></h3>
+
+                <div class="box-tools pull-left">
+                  <a class="btn btn-info btn-sm" href="${ctxroot}/weixin/material/voiceform"> <i class="fa fa-plus"></i>
+                    &nbsp;添加
+                  </a>
+                </div>
+
+              </div>
+              <!-- /.box-header -->
+              <div class="box-body">
+                <table id="table_voice" class="potable table table-bordered table-hover">
+                  <thead>
+                    <tr>
+                      <th>素材名称</th>
+                      <th>语音文件</th>
+                      <th>创建时间</th>
+                      <th>操作</th>
+                    </tr>
+                  </thead>
+                </table>
+              </div>
+              <!-- /.box-body --> </div>
           </div>
           <!-- /.tab-pane -->
           <!-- /.tab-pane -->
           <div class="tab-pane" id="tab_4">
             <div class="box">
               <div class="box-header with-border">
-                <h3 class="box-title">Bordered Table</h3>
+                <h3 class="box-title"></h3>
+
+                <div class="box-tools pull-left">
+                  <a class="btn btn-info btn-sm" href="${ctxroot}/weixin/material/videoform"> <i class="fa fa-plus"></i>
+                    &nbsp;添加
+                  </a>
+                </div>
+
               </div>
               <!-- /.box-header -->
-              <div class="box-body"></div>
+              <div class="box-body">
+                <table id="table_video" class="potable table table-bordered table-hover">
+                  <thead>
+                    <tr>
+                      <th>素材名称</th>
+                      <th>视频内容</th>
+                      <th>创建时间</th>
+                      <th>操作</th>
+                    </tr>
+                  </thead>
+                </table>
+              </div>
               <!-- /.box-body --> </div>
           </div>
           <!-- /.tab-pane -->
@@ -272,6 +308,7 @@
 <script src="${ctxroot}/static/dist/js/app.min.js"></script>
 <!-- AdminLTE for demo purposes -->
 <script src="${ctxroot}/static/dist/js/demo.js"></script>
+<script src="${ctxroot}/static/weixin/js/material.js"></script>
 <script type="text/javascript">
   var tab = '${tab}';
   var texttable = '';
@@ -285,137 +322,6 @@
     $("#tab_1").addClass("active");
     $("#ttab_1").addClass("active");
   }
-
-
-  //createtable('text', $("#table_text"));//文本素材
-  createtable('image', $("#table_image"));//图片素材
-  function createtable(type, obj) {
-    var url = actionurl + '/material/getmlist';
-    if(type == 'text'){
-      texttable = obj.DataTable({
-        "ajax": {
-          "url": url,
-          //默认为data,这里定义为空，则只需要传不带属性的数据
-          "data": {'type':type},
-          "dataSrc": ""
-        },
-        "pageLength": 2,
-        "paging": false,
-        "info": false,
-        "lengthChange": false,
-        "searching": false,
-        "ordering": false,
-        "retrieve": true,
-        "autoWidth": false,
-        "columnDefs": [ {
-            "targets": -1,
-            "data": null,
-            "defaultContent": "<button type=\"button\" class=\"btn btn-info btn-xs updatebtn\">修改</button>&nbsp;<button type=\"button\" class=\"btn btn-danger btn-xs deletebtn\">删除</button>"
-        }],
-        "language": {
-          "lengthMenu": "每页 _MENU_ 条记录",
-          "zeroRecords": "无素材记录",
-          "info": "第 _PAGE_ 页 ( 总共 _PAGES_ 页 )",
-          "infoEmpty": "无记录",
-          "infoFiltered": "(从 _MAX_ 条记录过滤)",
-          "oPaginate": {
-            "sFirst": "首页",
-            "sPrevious": "上页",
-            "sNext": "下页",
-            "sLast": "末页"
-          }
-        }
-      });
-    }else if(type == 'image'){
-      imagetable = obj.DataTable({
-        "ajax": {
-          "url": url,
-          //默认为data,这里定义为空，则只需要传不带属性的数据
-          "data": {'type':type},
-          "dataSrc": ""
-        },
-        "pageLength": 2,
-        "paging": false,
-        "info": false,
-        "lengthChange": false,
-        "searching": false,
-        "ordering": false,
-        "retrieve": true,
-        "autoWidth": false,
-        "columnDefs": [ 
-        {
-            "targets": 1,
-            "render":function(data, type, row) {
-                return "<img src=\"" + rooturl + "/upload/weixin/" + data + "\" style=\"width: 180px;height: 140px;\">";
-            }
-        },
-        {
-            "targets": 3,
-            "render":function(data, type, row) {
-                return "<button type=\"button\" class=\"btn btn-danger btn-xs deletebtn\" onclick=\"deletematerial('image'," + data +");\">删除</button>";
-            }
-        }],
-        "language": {
-          "lengthMenu": "每页 _MENU_ 条记录",
-          "zeroRecords": "无素材记录",
-          "info": "第 _PAGE_ 页 ( 总共 _PAGES_ 页 )",
-          "infoEmpty": "无记录",
-          "infoFiltered": "(从 _MAX_ 条记录过滤)",
-          "oPaginate": {
-            "sFirst": "首页",
-            "sPrevious": "上页",
-            "sNext": "下页",
-            "sLast": "末页"
-          }
-        }
-      });
-    }
-  }
-
-  jQuery('#table_text tbody').on("click", ".updatebtn", function(){
-    var data = texttable.row( $(this).parents('tr') ).data();
-    var id = data[3];
-    var url = actionurl + '/material/textform/' + id;
-    window.location.href = url;
-  });
-
-  jQuery('#table_text tbody').on("click", ".deletebtn", function(){
-    var data = texttable.row( $(this).parents('tr') ).data();
-    var id = data[3];
-    var url = actionurl + '/material/deletetextmaterial/';
-    jQuery.post(url, {"id": id}, function(data, textStatus, xhr) {
-      //optional stuff to do after success
-      if(data == '1'){
-        Alert("删除成功！",function(){window.location.href = actionurl + "/material/list/text";});
-      }else{
-        Alert("删除失败！");
-      }
-    });
-  });
-
-  function deletematerial(type,id){
-    if(type == 'image'){
-      var url = actionurl + '/material/deleteimagematerial/';
-      jQuery.post(url, {"id": id}, function(data, textStatus, xhr) {
-        //optional stuff to do after success
-        var obj = jQuery.parseJSON(data);
-        if(obj.status == '1'){
-          Alert("删除成功！",function(){window.location.href = actionurl + "/material/list/image";});
-        }else{
-          Alert("删除失败！"+ obj.msg);
-        }
-      });
-    }
-  };
-
-  function updatematerial(type,id){
-    if(type == 'image'){
-      var url = actionurl + '/material/imageform/' + id;
-      window.location.href = url;
-    }
-  };
-
-
 </script>
 </body>
 </html>

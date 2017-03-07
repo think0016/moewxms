@@ -23,10 +23,12 @@ import me.moe.common.utils.MoeFileUtils;
 import me.moe.model.User;
 import me.moe.modules.weixin.interceptor.VerifyCurrentPublic;
 import me.moe.modules.weixin.model.Attachment;
+import me.moe.modules.weixin.model.MaterialFile;
 import me.moe.modules.weixin.model.MaterialImage;
 import me.moe.modules.weixin.model.MaterialText;
 import me.moe.modules.weixin.model.Public;
 import me.moe.modules.weixin.service.AttachmentService;
+import me.moe.modules.weixin.service.MaterialFileService;
 import me.moe.modules.weixin.service.MaterialImageService;
 import me.moe.modules.weixin.service.MaterialTextService;
 
@@ -39,6 +41,7 @@ import me.moe.modules.weixin.service.MaterialTextService;
 public class WeixinMaterialController extends WeixinBaseController {
 	private MaterialTextService materialTextService = new MaterialTextService();
 	private MaterialImageService materialImageService = new MaterialImageService(); 
+	private MaterialFileService materialFileService = new MaterialFileService();
 	private AttachmentService attachmentService = new AttachmentService();
 	private Gson gson = new Gson();
 
@@ -95,20 +98,20 @@ public class WeixinMaterialController extends WeixinBaseController {
 		List<String[]> rs = new ArrayList<String[]>();
 		if ("text".equals(type)) {
 			rs = materialTextService.gettabledataArray(this.current_token);
+			
 			// datatablesArray.setData(rs);
 
 		} else if ("image".equals(type)) {
 			rs = materialImageService.gettabledataArray(this.current_token);
 		} else if ("voice".equals(type)) {
-
+			rs = materialFileService.gettabledataArray(this.current_token,0);
 		} else if ("video".equals(type)) {
-
+			rs = materialFileService.gettabledataArray(this.current_token,1);
 		} else if ("news".equals(type)) {
 
 		}
 
 		renderText(gson.toJson(rs));
-
 	}
 
 	@Before({ VerifyCurrentPublic.class })
@@ -287,6 +290,140 @@ public class WeixinMaterialController extends WeixinBaseController {
 		renderText(gson.toJson(result));
 	}
 	
+	@Before({ VerifyCurrentPublic.class })
+	public void voiceform() {
+		setAttr("subtitle", "添加语音素材");
+
+		render("voiceform.html");
+	}
+	
+	@Before({ VerifyCurrentPublic.class })
+	public void savevoicematerial(){
+		Public publicapp = (Public) getSession().getAttribute("cache_wxpublic");
+		User cuser = (User) getSession().getAttribute("cache_user");
+		
+		Map<String, String> result = new HashMap<String, String>();
+		result.put("status", "0");
+		result.put("msg", "");
+		
+		String fileid = getPara("fileid");
+		String mname = getPara("mname");
+		Date createdate = new Date();
+		if (StringUtils.isEmpty(mname)) {
+			mname = "无标题(" + CommonTools.dateTostring("yyyy-MM-dd HH:mm:ss", createdate) + ")";
+		}
+		
+		if (StringUtils.isNotEmpty(fileid)) {
+			String[] fileid_arr = StringUtils.split(fileid, ";");
+			for (int i = 0; i < fileid_arr.length; i++) {
+				//String cover_id = 
+				String attachment_id = fileid_arr[i];
+				//attachment_id = attachmentService.
+				Attachment attachment= attachmentService.findAttachmentById(attachment_id);
+				File file = new File(attachment.getPath());
+				ApiResult ar = MediaApi.addMaterial(file);
+				if(ar.isSucceed()){
+					//上传服务器成功
+					String arjson = ar.getJson();
+					HashMap<String,String> arobj = gson.fromJson(arjson, HashMap.class);
+					String media_id = arobj.get("media_id");
+					String wechat_url = arobj.get("url");
+					
+					//入本地库
+					MaterialFile materialFile = new MaterialFile();
+					materialFile.setMname(mname);
+					materialFile.setFileId(Integer.valueOf(attachment_id).intValue());
+					materialFile.setFileUrl(attachment.getUrl());
+					materialFile.setMediaId(media_id);
+					materialFile.setWechatUrl(wechat_url);
+					materialFile.setManagerId(cuser.getUid());
+					materialFile.setCreatedate(new Date());
+					materialFile.setToken(publicapp.getToken());
+					materialFile.setType(0);
+					Long miId = materialFileService.save(materialFile);
+					
+					if(miId>0){
+						result.put("status", "1");
+						result.put("msg", "提交成功！");
+					}else{
+						result.put("msg", "提交失败");
+					};				
+					
+				}else{
+					result.put("msg", ReturnCode.get(ar.getErrorCode()));
+				}
+			}
+		}else{
+			result.put("msg", "文件不能为空");
+		}
+
+		renderText(gson.toJson(result));
+	}
+	
+	@Before({ VerifyCurrentPublic.class })
+	public void deletevoicematerial(){
+		String materialid = getPara("id");
+
+		Map<String, String> result = new HashMap<String, String>();
+		result.put("status", "0");
+		result.put("msg", "");
+		
+		/*
+		 * ******************************
+		 * 
+		 * 先删掉微信服务器端的素材，再删本地的 (待写)
+		 * 
+		 * ******************************
+		 */
+				
+		renderText(gson.toJson(result));
+	}
+	
+	public void videoform(){
+		setAttr("subtitle", "添加视频素材");
+		render("videoform.html");
+	}
+	
+	@Before({ VerifyCurrentPublic.class })
+	public void savevideomaterial(){
+		Public publicapp = (Public) getSession().getAttribute("cache_wxpublic");
+		User cuser = (User) getSession().getAttribute("cache_user");
+		
+		Map<String, String> result = new HashMap<String, String>();
+		result.put("status", "0");
+		result.put("msg", "");
+		
+		/*
+		 * ******************************
+		 * 
+		 *         添加视频比较特殊  参数和地址均不同(待写)
+		 * 
+		 * ******************************
+		 */
+		
+		
+		renderText(gson.toJson(result));
+	}
+	
+	@Before({ VerifyCurrentPublic.class })
+	public void deletevideomaterial(){
+		String materialid = getPara("id");
+
+		Map<String, String> result = new HashMap<String, String>();
+		result.put("status", "0");
+		result.put("msg", "");
+		
+		/*
+		 * ******************************
+		 * 
+		 * 先删掉微信服务器端的素材，再删本地的 (待写)
+		 * 
+		 * ******************************
+		 */
+				
+		renderText(gson.toJson(result));
+	}
+	
 	public void uploadfile() {
 		User cuser = (User) getSession().getAttribute("cache_user");
 		String uploadtype = getPara(0);
@@ -306,7 +443,7 @@ public class WeixinMaterialController extends WeixinBaseController {
 //					+ (new Date().getTime()) + "." + MoeFileUtils.getExtname(uf.getOriginalFileName());
 			
 			String filename = MoeFileUtils.createfilename(cuser.getUid().toString(), MoeFileUtils.getExtname(uf.getOriginalFileName()));
-			Map<String,String> pathinfo = this.getUploadPathInfo(filename);
+			Map<String,String> pathinfo = this.getUploadPathInfo(filename,"image");
 			
 			if (MoeFileUtils.isImg(uf.getContentType())) {
 
@@ -326,15 +463,66 @@ public class WeixinMaterialController extends WeixinBaseController {
 					attachment.setPath(pathinfo.get("path"));
 					attachment.setManagerId(cuser.getUid());
 					long id = attachmentService.save(attachment);
-
+					
 					result.put("status", "1");
 					result.put("fileId", new Long(id).toString());
 					result.put("msg", pathinfo.get("url"));
 				} catch (IOException e) {
 					e.printStackTrace();
+				
 				}
 			} else {
 				result.put("msg", "图片上传格式不正确");
+			}
+		}else if ("voice".equals(uploadtype) || "video".equals(uploadtype)) {
+			UploadFile uf = getFile("uploadfile");
+			
+			String filename = MoeFileUtils.createfilename(cuser.getUid().toString(), MoeFileUtils.getExtname(uf.getOriginalFileName()));
+			Map<String,String> pathinfo = null;
+			
+			boolean flag = false;
+			if("voice".equals(uploadtype)){
+				if(MoeFileUtils.isVoice(uf.getContentType())){
+					flag = true;
+					pathinfo = this.getUploadPathInfo(filename,"voice");
+				} else {
+					result.put("msg", "上传文件格式不正确");
+				}
+				
+			}else if("video".equals(uploadtype)){
+				if(MoeFileUtils.isVideo(uf.getContentType())){
+					flag = true;
+					pathinfo = this.getUploadPathInfo(filename,"video");
+				} else {
+					result.put("msg", "上传文件格式不正确");
+				}
+			}
+			
+			if (flag) {
+				File srcFile = uf.getFile();
+				File destFile = new File(pathinfo.get("path"));
+				try {
+					// 调整尺寸
+					// MoeFileUtils.resizeImage(srcFile, srcFile, 160, 160);
+					FileUtils.moveFile(srcFile, destFile);
+
+					Attachment attachment = new Attachment();
+					attachment.setExt(MoeFileUtils.getExtname(uf.getOriginalFileName()));
+					attachment.setCreatedate(new Date());
+					attachment.setUrl(pathinfo.get("url"));
+					attachment.setFilename(filename);
+					attachment.setPath(pathinfo.get("path"));
+					attachment.setManagerId(cuser.getUid());
+					long id = attachmentService.save(attachment);
+
+					result.put("status", "1");
+					result.put("fileId", new Long(id).toString());
+					result.put("filename", uf.getFileName());
+					result.put("msg", pathinfo.get("url"));
+					
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
 			}
 		}
 

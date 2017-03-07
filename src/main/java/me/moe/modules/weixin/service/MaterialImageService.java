@@ -5,7 +5,6 @@ import java.util.List;
 
 import me.moe.common.utils.CommonTools;
 import me.moe.modules.weixin.model.MaterialImage;
-import me.moe.modules.weixin.model.MaterialText;
 
 public class MaterialImageService {
 

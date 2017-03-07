@@ -44,9 +44,10 @@ public class WeixinBaseController extends ApiController {
 	 * @param filename
 	 * @return
 	 */
-	protected Map<String,String> getUploadPathInfo(String filename){
+	protected Map<String,String> getUploadPathInfo(String filename,String type){
 		Map<String,String> map = new HashMap<String,String>();
-		String rootpath = JFinal.me().getServletContext().getRealPath("upload/weixin") + File.separatorChar;
+		String rootpath_temp = "upload/weixin/"+type;
+		String rootpath = JFinal.me().getServletContext().getRealPath(rootpath_temp) + File.separatorChar;
 		String middlepath = CommonTools.dateTostring("yyyyMMdd", new Date());
 		String path = rootpath + middlepath + File.separatorChar;
 		String url = middlepath + "/" + filename;
